@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description  = spec.summary
   spec.homepage     = "https://github.com/leemour/hanami_id"
   spec.license      = "MIT"
-  spec.required_ruby_version = '~> 2'
+  spec.required_ruby_version = "~> 2"
 
   if spec.respond_to?(:metadata)
     spec.metadata["homepage_uri"] = spec.homepage
