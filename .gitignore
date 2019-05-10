@@ -1,0 +1,27 @@
+# Ignore bundler config and gems
+/.bundle
+vendor/gems/*
+!vendor/gems/cache/
+
+# Ignore dev-specific files
+.DS_Store
+.idea
+.byebug_history
+
+# Ignore all logfiles and tempfiles.
+/log
+/tmp
+
+# Ignore docs
+/.yardoc
+/_yardoc
+/doc
+
+# Ignore packages
+/pkg/
+
+# Ignore test artifacts
+/coverage
+/spec/reports
+/spec/tmp
+.rspec_status
