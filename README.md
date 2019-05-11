@@ -3,14 +3,13 @@
 Authentication solution for Hanami framework. Based on Warden and Bcrypt.
 
 [![Build Status](https://travis-ci.org/leemour/hanami_id.svg?branch=master)](https://travis-ci.org/leemour/hanami_id)
-[![Known Vulnerabilities](https://snyk.io/test/github/leemour/hanami_id/badge.svg?targetFile=Gemfile.lock)](https://snyk.io/test/github/leemour/hanami_id?targetFile=Gemfile.lock)
 [![Gem](https://img.shields.io/gem/v/hanami_id.svg?style=flat)](http://rubygems.org/gems/hanami_id "View this project in Rubygems")
-[![CodeClimate](http://img.shields.io/codeclimate/github/leemour/hanami_id.svg?style=flat)](https://codeclimate.com/github/leemour/hanami_id "CodeClimate")
-[![Test Coverage](https://api.codeclimate.com/v1/badges/c4c03486c0bf75b6fb44/test_coverage)](https://codeclimate.com/github/leemour/hanami_id/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/c4c03486c0bf75b6fb44/maintainability)](https://codeclimate.com/github/leemour/hanami_id/maintainability)
+[![Known Vulnerabilities](https://snyk.io/test/github/leemour/hanami_id/badge.svg?targetFile=Gemfile.lock)](https://snyk.io/test/github/leemour/hanami_id?targetFile=Gemfile.lock)
 [![Depfu](https://badges.depfu.com/badges/49e1b40e2b5a6d6d7fd89e97531bb65a/count.svg)](https://depfu.com/github/leemour/hanami_id?project_id=7886)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c05fdf7a87204e53b79cb4a77b44f41a)](https://www.codacy.com/app/leemour/hanami_id?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=leemour/hanami_id&amp;utm_campaign=Badge_Grade)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/c4c03486c0bf75b6fb44/test_coverage)](https://codeclimate.com/github/leemour/hanami_id/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c4c03486c0bf75b6fb44/maintainability)](https://codeclimate.com/github/leemour/hanami_id/maintainability)
 
 ## Installation
 
@@ -41,10 +40,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/leemour/hanami_id. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
 ## Code of Conduct
 
