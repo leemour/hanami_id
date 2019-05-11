@@ -1,4 +1,4 @@
-# Hanami::Id
+# HanamiId
 
 Authentication solution for Hanami framework. Based on Warden and Bcrypt.
 
