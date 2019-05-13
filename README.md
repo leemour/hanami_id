@@ -2,6 +2,8 @@
 
 Authentication solution for Hanami framework. Based on Warden and Bcrypt.
 
+## Status
+
 [![Build Status](https://travis-ci.org/leemour/hanami_id.svg?branch=master)](https://travis-ci.org/leemour/hanami_id)
 [![Gem](https://img.shields.io/gem/v/hanami_id.svg?style=flat)](http://rubygems.org/gems/hanami_id "View this project in Rubygems")
 [![Known Vulnerabilities](https://snyk.io/test/github/leemour/hanami_id/badge.svg?targetFile=Gemfile.lock)](https://snyk.io/test/github/leemour/hanami_id?targetFile=Gemfile.lock)
@@ -27,9 +29,81 @@ Or install it yourself as:
 
     $ gem install hanami_id
 
+Run generator:
+
+    $ hanami g auth --app auth --model user
+
+This will generate an application with all controller actions, entity, 
+repository and allrelevant tests.
+
 ## Usage
 
-TODO: Write usage instructions here
+Add Warden Rack middleware to your project:
+```ruby
+# config/environment.rb
+Hanami.configure do
+  # ...
+  use Rack::Session::Cookie, secret: "replace this with some secret key"
+
+  middleware.use Warden::Manager do |manager|
+    manager.default_strategies :password
+    manager.failure_app = lambda do |env|
+      Web::Controllers::Session::New.new(
+        login_failed_with: env["warden"].message
+      ).call(env)
+    end
+  end
+end
+```
+
+Add Warden Rack middleware to a particular app:
+```ruby
+# apps/web/application.rb
+module Web
+  class Application < Hanami::Application
+    configure do
+      # ...
+      sessions :cookie, secret: ENV['WEB_SESSIONS_SECRET']
+
+      middleware.use Warden::Manager do |manager|
+        manager.default_strategies :password
+        manager.failure_app = lambda do |env|
+          Web::Controllers::Session::New.new(
+            login_failed_with: env["warden"].message
+          ).call(env)
+        end
+      end
+    end
+  end
+end
+```
+
+Add Warden Rack middleware to a controller action:
+```ruby
+# apps/web/controllers/dashboard/show.rb
+module Web
+  module Controllers
+    module Dashboard
+      class Show
+        include Web::Action
+
+        use Warden::Manager do |manager|
+          manager.default_strategies :password
+          manager.failure_app = lambda do |env|
+            Web::Controllers::Session::New.new(
+              login_failed_with: env["warden"].message
+            ).call(env)
+          end
+        end
+
+        def call(params)
+          # ...
+        end
+      end
+    end
+  end
+end
+```
 
 ## Development
 

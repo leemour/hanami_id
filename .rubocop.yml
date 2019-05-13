@@ -1,4 +1,10 @@
+require:
+  - rubocop-rspec
+  - rubocop-performance
+
 AllCops:
+  Exclude:
+    - spec/dummy/**/*
   # Default formatter will be used if no `-f/--format` option is given.
   DefaultFormatter: fuubar
   # Cop names are displayed in offense messages by default. Change behavior
@@ -290,11 +296,10 @@ Layout/FirstMethodParameterLineBreak:
   Enabled: true
   VersionAdded: '0.49'
 
-Layout/FirstParameterIndentation:
+Layout/IndentFirstArgument:
   Description: 'Checks the indentation of the first parameter in a method call.'
   Enabled: true
   VersionAdded: '0.49'
-  VersionChanged: '0.56'
   EnforcedStyle: consistent
   SupportedStyles:
     # The first parameter should always be indented one step more than the
@@ -315,7 +320,7 @@ Layout/FirstParameterIndentation:
   # But it can be overridden by setting this parameter
   IndentationWidth: ~
 
-Layout/IndentArray:
+Layout/IndentFirstArrayElement:
   Description: >-
                  Checks the indentation of the first element in an array
                  literal.
@@ -351,7 +356,7 @@ Layout/IndentAssignment:
   # But it can be overridden by setting this parameter
   IndentationWidth: ~
 
-Layout/IndentHash:
+Layout/IndentFirstHashElement:
   Description: 'Checks the indentation of the first key in a hash literal.'
   Enabled: true
   VersionAdded: '0.49'

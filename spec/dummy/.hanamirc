@@ -1,0 +1,3 @@
+project=dummy
+test=rspec
+template=erb
