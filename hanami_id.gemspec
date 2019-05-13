@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "hanami_id/version"
@@ -12,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.description  = spec.summary
   spec.homepage     = "https://github.com/leemour/hanami_id"
   spec.license      = "MIT"
-  spec.required_ruby_version = "~> 2.2"
+  spec.required_ruby_version = "~> 2.3"
 
   if spec.respond_to?(:metadata)
     spec.metadata["homepage_uri"] = spec.homepage

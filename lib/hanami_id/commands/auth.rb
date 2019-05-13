@@ -1,15 +1,15 @@
-require 'optparse'
-require_relative "../generators/app"
+# frozen_string_literal: true
 
+require "optparse"
+require_relative "../generators/app"
 
 options = {}
 optparse = OptionParser.new do |opts|
-  opts.banner =
-    <<~DESC
-      \nHanami authorization application generator
-      Usage: hanami g auth --app auth --model user
-      Flags:
-    DESC
+  opts.banner = <<~DESC
+    \nHanami authorization application generator
+    Usage: hanami g auth --app auth --model user
+    Flags:
+  DESC
 
   opts.on("-a", "--app APP", "Specify the application name") do |app_name|
     options[:app] = app_name
@@ -25,16 +25,12 @@ optparse = OptionParser.new do |opts|
   end
 end
 
-
 begin
   optparse.parse!
   puts "Add flag -h or --help to see usage instructions." if options.empty?
   mandatory = [:app, :model]
   missing = mandatory.select { |arg| options[arg].nil? }
-  unless missing.empty?
-    raise OptionParser::MissingArgument.new(missing.join(', '))
-  end
-
+  raise OptionParser::MissingArgument, missing.join(", ") unless missing.empty?
 rescue OptionParser::InvalidOption, OptionParser::MissingArgument
   puts optparse
   puts $ERROR_INFO.to_s

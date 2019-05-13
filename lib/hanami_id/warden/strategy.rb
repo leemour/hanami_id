@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "warden"
 
 Warden::Strategies.add(:password) do

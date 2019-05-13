@@ -1,11 +1,13 @@
-require 'fileutils'
+# frozen_string_literal: true
+
+require "fileutils"
 
 module HanamiId
   module Generators
     module App
       class << self
-        def generate(app, model)
-          file_contents = <<-TXT
+        def generate(app, _model)
+          file_contents = <<~TXT
             class #{controller}Policy
               def initialize(role)
                 @user_role = role
@@ -44,13 +46,12 @@ module HanamiId
                 @authorized_roles_for_destroy.include? @user_role
               end
             end
-            TXT
-
+          TXT
 
           FileUtils.mkdir_p "apps/#{app}" unless File.directory?("apps/#{app}")
           file_path = "apps/#{app}/policy.rb"
           unless File.file? file_path
-            File.open(file_path, 'w') { |file| file.write(file_contents) }
+            File.open(file_path, "w") { |file| file.write(file_contents) }
           end
           puts("Generated app: #{file_path}") if File.file?(file_path)
         end
