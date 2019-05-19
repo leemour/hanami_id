@@ -1,21 +1,37 @@
 # frozen_string_literal: true
 
-require "hanami_id/version"
+require "bcrypt"
 require "i18n"
+require "warden"
+
+require "hanami_id/version"
+require "hanami_id/warden/strategy"
+require "hanami_id/warden/app_helper"
 
 module HanamiId
   class AuthError < StandardError; end
 
-  attr_accessor :model
+  class << self
+    attr_accessor :logger
+    attr_accessor :model
+    attr_accessor :failure_app
 
-  def self.configure
-    yield self
+    def configure
+      yield self
+    end
+
+    def repository
+      @repository ||= Module.const_get(
+        "#{Hanami::Utils::String.classify @model}Repository"
+      )
+    end
   end
 
-  def self.repository
-    @repository ||= Module.const_get(
-      "#{Hanami::Utils::String.classify @model}Repository"
-    )
+  @logger = Logger.new(STDOUT)
+  @failure_app = lambda do |env|
+    Web::Controllers::Session::New.new(
+      login_failed_with: env["warden"].message
+    ).call(env)
   end
 end
 

@@ -45,14 +45,7 @@ Hanami.configure do
   # ...
   use Rack::Session::Cookie, secret: "replace this with some secret key"
 
-  middleware.use Warden::Manager do |manager|
-    manager.default_strategies :password
-    manager.failure_app = lambda do |env|
-      Web::Controllers::Session::New.new(
-        login_failed_with: env["warden"].message
-      ).call(env)
-    end
-  end
+  include HanamiId::Warden::Helper
 end
 ```
 
@@ -65,14 +58,7 @@ module Web
       # ...
       sessions :cookie, secret: ENV['WEB_SESSIONS_SECRET']
 
-      middleware.use Warden::Manager do |manager|
-        manager.default_strategies :password
-        manager.failure_app = lambda do |env|
-          Web::Controllers::Session::New.new(
-            login_failed_with: env["warden"].message
-          ).call(env)
-        end
-      end
+      include HanamiId::Warden::Helper
     end
   end
 end
@@ -86,15 +72,8 @@ module Web
     module Dashboard
       class Show
         include Web::Action
-
-        use Warden::Manager do |manager|
-          manager.default_strategies :password
-          manager.failure_app = lambda do |env|
-            Web::Controllers::Session::New.new(
-              login_failed_with: env["warden"].message
-            ).call(env)
-          end
-        end
+        include HanamiId::Warden::Helper
+        
 
         def call(params)
           # ...
