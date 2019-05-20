@@ -14,6 +14,7 @@ module HanamiId
   class << self
     attr_accessor :logger
     attr_accessor :model
+    attr_accessor :auth_app
     attr_accessor :failure_app
 
     def configure
@@ -27,14 +28,19 @@ module HanamiId
     end
   end
 
+  # Defaults
   @logger = Logger.new(STDOUT)
+  @model = :user
+  @auth_app = :Auth
   @failure_app = lambda do |env|
-    Web::Controllers::Session::New.new(
+    auth_app::Controllers::Session::New.new(
       login_failed_with: env["warden"].message
     ).call(env)
   end
 end
 
-I18n.load_path << Dir[File.join File.expand_path("locales"), "*.yml"]
-I18n.enforce_available_locales = false
-I18n.default_locale = :en
+I18n.tap do |i18n|
+  i18n.load_path << Dir[File.join File.expand_path("locales"), "*.yml"]
+  i18n.enforce_available_locales = false
+  i18n.default_locale = :en
+end
