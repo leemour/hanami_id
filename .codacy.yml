@@ -1,12 +1,16 @@
 ---
 engines:
- rubocop:
-   enabled: true
- duplication:
-   enabled: true
- metric:
-   enabled: true
- coverage:
-   enabled: true
+  rubocop:
+    enabled: true
+  bundler-audit:
+    enabled: true
+  brakemam:
+    enabled: true
+  duplication:
+    enabled: true
+  metric:
+    enabled: true
+  coverage:
+    enabled: true
 exclude_paths:
   - '**.md'

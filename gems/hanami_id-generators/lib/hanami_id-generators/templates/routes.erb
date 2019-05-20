@@ -1,0 +1,6 @@
+<% if modules.inlcude? 'sessions' %>
+  resources :sessions, only: [:new, :create, :delete]
+<% end %>
+<% if modules.inlcude? 'registrations' %>
+  resources :registrations
+<% end %>

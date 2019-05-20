@@ -13,6 +13,14 @@ module HanamiId
 
   class << self
     attr_accessor :logger
+
+    def root
+      @root ||= Dir.pwd.tap do |path|
+        path.define_singleton_method(:join) do |*args|
+          File.join path, *args
+        end
+      end
+    end
   end
 
   @logger = Logger.new(STDOUT)

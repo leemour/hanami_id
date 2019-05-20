@@ -1,5 +1,5 @@
 # Ignore bundler config and gems
-/.bundle
+.bundle
 vendor/gems/*
 !vendor/gems/cache/
 
@@ -9,19 +9,20 @@ vendor/gems/*
 .byebug_history
 
 # Ignore all logfiles and tempfiles.
-/log
-/tmp
+log
+tmp
 
 # Ignore docs
-/.yardoc
-/_yardoc
-/doc
+.yardoc
+_yardoc
+doc
 
 # Ignore packages
-/pkg/
+pkg/
 
 # Ignore test artifacts
-/coverage
-/spec/reports
-/spec/tmp
+coverage
+spec/reports
+spec/tmp
+#spec/dummy/apps/auth
 .rspec_status

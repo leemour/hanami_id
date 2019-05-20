@@ -7,19 +7,24 @@ module HanamiId
     extend Hanami::CLI::Registry
 
     class Auth < Hanami::CLI::Command
-      desc "Destroy app with hanami_id"
+      desc "Destroy an app with hanami_id"
 
-      option :app, default: "auth", desc: "Application name (default: `auth`)"
-      option :model, default: "user", desc: "User model name (default: `user`)"
+      option :name, default: "auth", desc: "Application name"
+      option :model, default: "user", desc: "User model name"
+      option :modules, type: :array, values: %w[sessions registrations],
+        default: %w[sessions registrations], desc: "List of modules"
 
       example [
-        "auth # Destroy `auth` app"
+        ""
       ]
 
-      def call(name: "auth", model: "user")
-        HanamiId.logger.info "Destroying Auth app!"
-        Hanami::CLI::Commands::Destroy::App.new(command_name: "destroy app")
-          .call(app: name)
+      def call(
+        name: "auth", model: "user", modules: [], **options
+      )
+        HanamiId.logger.info "Destroying #{name} app!"
+        Hanami::CLI::Commands::Destroy::App.new(
+          command_name: "destroy app"
+        ).call(app: name)
       end
     end
   end

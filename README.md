@@ -38,7 +38,7 @@ repository and all relevant specs (RSpec).
 
 ## Usage
 
-For project-wide uage add Warden Rack middleware to your project:
+For project-wide usage add Warden Rack middleware to your project:
 ```ruby
 # config/environment.rb
 Hanami.configure do
