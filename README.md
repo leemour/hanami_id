@@ -18,10 +18,10 @@ Authentication solution for Hanami framework. Based on Warden and Bcrypt.
 Add this lines to your application's Gemfile:
 
 ```ruby
-gem 'hanami_id'
+gem "hanami_id"
 
 group :plugins do
-  gem 'hanami_id-generators'  
+  gem "hanami_id-generators"
 end
 ```
 
@@ -33,7 +33,7 @@ Run generator:
 
     $ hanami g auth --app auth --model user
 
-This will generate an application with all controller actions, entity, 
+This will generate an application with all controller actions, entity,
 repository and all relevant specs (RSpec).
 
 ## Usage
@@ -55,7 +55,7 @@ module Web
   class Application < Hanami::Application
     configure do
       # ...
-      sessions :cookie, secret: ENV['WEB_SESSIONS_SECRET']
+      sessions :cookie, secret: ENV["WEB_SESSIONS_SECRET"]
       include HanamiId::Warden::AppHelper
     end
   end
@@ -71,7 +71,6 @@ module Web
       class Show
         include Web::Action
         include HanamiId::Warden::ActionHelper
-        
 
         def call(params)
           # ...

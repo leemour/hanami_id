@@ -16,6 +16,7 @@ module HanamiId
     attr_accessor :model
     attr_accessor :auth_app
     attr_accessor :failure_app
+    attr_writer :repository
 
     def configure
       yield self

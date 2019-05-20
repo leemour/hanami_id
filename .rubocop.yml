@@ -1,4 +1,5 @@
 require:
+  - rubocop-md
   - rubocop-rspec
   - rubocop-performance
 
@@ -69,6 +70,10 @@ AllCops:
   # from the lock file.) If the Ruby version is still unresolved, RuboCop will
   # use the oldest officially supported Ruby version (currently Ruby 2.2).
   TargetRubyVersion: 2.3
+
+Markdown:
+  WarnInvalid: true
+  Autodetect: true
 
 #################### Layout ###########################
 
@@ -541,7 +546,8 @@ Metrics/LineLength:
   # The IgnoredPatterns option is a list of !ruby/regexp and/or string
   # elements. Strings will be converted to Regexp objects. A line that matches
   # any regular expression listed in this option will be ignored by LineLength.
-  IgnoredPatterns: []
+  IgnoredPatterns:
+    - !ruby/regexp /^\#/
 
 Metrics/MethodLength:
   Description: 'Avoid methods longer than 10 lines of code.'

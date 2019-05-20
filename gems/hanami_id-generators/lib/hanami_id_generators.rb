@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'hanami_id-generators/version'
-require 'hanami_id-generators/destroy/auth'
-require 'hanami_id-generators/generate/auth'
+require "hanami_id-generators/version"
+require "hanami_id-generators/destroy/auth"
+require "hanami_id-generators/generate/auth"
 
 # TODO: remove pry
-require 'pry'
+require "pry"
 
 module HanamiId
   module Generators
