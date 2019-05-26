@@ -1,0 +1,2 @@
+          <%= model %> = <%= HanamiId.classify model %>.new(params[:login], params[:password])
+          <%= HanamiId.classify repository %>.create(<%= model %>)

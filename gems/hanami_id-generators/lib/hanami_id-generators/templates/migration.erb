@@ -1,16 +1,19 @@
 Hanami::Model.migration do
   up do
+    <%- if id_type == 'uuid' -%>
     execute 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp"'
 
-    create_table :users do
-      primary_key :id, 'uuid', null: false,
+    <%- end -%>
+    create_table :<%= Hanami::Utils::Inflector.pluralize model %> do
+      <%- if id_type == 'uuid' -%>
+      primary_key :id, <%= id_type %>, null: false,
         default: Hanami::Model::Sql.function(:uuid_generate_v4)
+      <%- else -%>
+      primary_key :id, null: false
+      <%- end -%>
 
-      column :email,  String, null: false
-      column :password, String, null: false
-      column :name, String
-      column :surname, String
-      column :username, String
+      column :<%= login_column %>,  String, null: false
+      column :<%= password_column %>, String, null: false
 
       column :created_at, DateTime, null: false
       column :updated_at, DateTime, null: false
@@ -18,7 +21,9 @@ Hanami::Model.migration do
   end
 
   down do
-    drop_table :users
+    drop_table :<%= Hanami::Utils::Inflector.pluralize model %>
+    <%- if id_type == 'uuid' -%>
     execute 'DROP EXTENSION IF EXISTS "uuid-ossp"'
+    <%- end -%>
   end
 end

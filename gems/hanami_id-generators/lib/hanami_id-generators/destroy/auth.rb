@@ -25,6 +25,21 @@ module HanamiId
         Hanami::CLI::Commands::Destroy::App.new(
           command_name: "destroy app"
         ).call(app: name)
+
+        remove_lib_app_directory
+        remove_default_migration
+      end
+
+      private
+
+      def remove_lib_app_directory
+        destination = project.root.join('lib', name)
+        files.delete_directory destination
+        say(:remove, destination)
+      end
+
+      def remove_default_migration
+        raise
       end
     end
   end

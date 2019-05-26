@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class <%= HanamiId.classify repository %> < Hanami::Repository
+class UserRepository < Hanami::Repository
   def authenticate(login, password)
 
   end
