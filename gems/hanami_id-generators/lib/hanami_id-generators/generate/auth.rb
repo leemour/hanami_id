@@ -28,10 +28,14 @@ module HanamiId
 
       desc "Generate app with hanami_id integration"
 
-      option :name, default: "auth", desc: "Application name"
+      option :app, default: "auth", desc: "Application name"
       option :model, default: "user", desc: "User model name"
-      option :modules, type: :array, values: %w[sessions registrations],
-        default: %w[sessions registrations], desc: "List of modules"
+      option :modules, type: :array, values: HanamiId::MODULES,
+        default: HanamiId.default_modules, desc: "List of modules"
+      option :id_type, default: "integer", desc: "User model name"
+      option :login_column, default: "email", desc: "Login column in the DB"
+      option :password_column, default: "password_hash",
+        desc: "Password column in the DB"
 
       example [
         "--app auth --model account --modules registrations"
@@ -46,21 +50,20 @@ module HanamiId
       end
 
       def call(
-        name: "auth", model: "user", modules: HanamiId.default_modules,
-        id_type: "uuid", login_column: "email",
-        password_column: "password_hash", **options
+        app:, model:, modules:, login_column:, password_column:, id_type:,
+        **options
       )
-        HanamiId.logger.info "Generating #{name} app!"
+        HanamiId.logger.info "Generating #{app} app!"
         HanamiId.model_name = model
         @context = Hanami::CLI::Commands::Context.new(
-          app: name,
+          app: app,
           model: HanamiId.model_name,
           repository: HanamiId.repository_name,
           modules: modules,
           id_type: id_type,
           login_column: login_column,
           password_column: password_column,
-          options: options.merge(project: name)
+          options: options.merge(project: app)
         )
 
         generate_default_app
@@ -157,8 +160,9 @@ module HanamiId
       end
 
       def generate_code(controller_name, action)
-        template = auth_templates.join "controllers", controller_name,
-                                       "#{action}.erb"
+        template = auth_templates.join(
+          "controllers", controller_name, "#{action}.erb"
+        )
         render(template.to_s, context)
       end
     end

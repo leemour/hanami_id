@@ -1,6 +1,12 @@
 # HanamiId
 
-Authentication solution for Hanami framework. Based on Warden and Bcrypt.
+Authentication solution for [Hanami](https://github.com/hanami/hanami) framework. Based on [Warden](https://github.com/wardencommunity/warden) and [Bcrypt](https://github.com/codahale/bcrypt-ruby).
+
+HanamiId tries to be a plug-n-play solution like Devise is for Rails. But 
+instead of magic intervention, it generates a separate app with controllers, views, templates full of working code that you can easily change to your liking.  
+HanamiId doesn't monkey patch anything, doesn't mess with your app configuration 
+and acts completely isolated.
+
 
 ## Status
 
@@ -33,8 +39,17 @@ Run generator:
 
     $ hanami g auth --app auth --model user
 
-This will generate an application with all controller actions, entity,
-repository and all relevant specs (RSpec).
+
+Use `--help` to see all available options and defaults. They are:
+
+- --modules
+- --id_type
+- --login_column
+- --password_column
+
+The above command is using Hanami CLI under the hood and will generate an 
+application with all controller actions, entity, repository and all relevant 
+specs (RSpec).
 
 ## Usage
 

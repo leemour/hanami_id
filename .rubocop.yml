@@ -476,6 +476,16 @@ Layout/SpaceInsideHashLiteralBraces:
     - space
     - no_space
 
+Layout/TrailingWhitespace:
+  Description: 'Avoid trailing whitespace.'
+  StyleGuide: '#no-trailing-whitespace'
+  Enabled: true
+  VersionAdded: '0.49'
+  VersionChanged: '0.55'
+  AllowInHeredoc: false
+  Exclude:
+    - '*.md'
+
 #################### Metrics ###############################
 
 Metrics/AbcSize:

@@ -10,6 +10,8 @@ require "hanami_id/warden/strategy"
 require "hanami_id/warden/app_helper"
 
 module HanamiId
+  MODULES = %w[sessions registrations].freeze
+
   class AuthError < StandardError; end
 
   class << self
