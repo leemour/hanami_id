@@ -3,7 +3,7 @@
 require "bcrypt"
 require "i18n"
 require "warden"
-require 'logger'
+require "logger"
 
 require "hanami_id/version"
 require "hanami_id/warden/strategy"
@@ -24,7 +24,7 @@ module HanamiId
     end
 
     def model
-      @model ||= Module.const_get(classify @model_name)
+      @model ||= Module.const_get(classify(@model_name))
     end
 
     def repository_name
@@ -42,8 +42,8 @@ module HanamiId
 
   # Defaults
   @logger = ::Logger.new(STDOUT)
-  @model_name = 'user'
-  @auth_app_name = 'Auth'
+  @model_name = "user"
+  @auth_app_name = "Auth"
   @failure_app = lambda do |env|
     auth_app::Controllers::Session::New.new(
       login_failed_with: env["warden"].message

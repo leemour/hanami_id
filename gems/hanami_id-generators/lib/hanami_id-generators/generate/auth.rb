@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/ClassLength
+
 # frozen_string_literal: true
 
 require "hanami/cli/commands"
@@ -45,8 +47,8 @@ module HanamiId
 
       def call(
         name: "auth", model: "user", modules: HanamiId.default_modules,
-        id_type: 'uuid', login_column: 'email',
-        password_column: 'password_hash', **options
+        id_type: "uuid", login_column: "email",
+        password_column: "password_hash", **options
       )
         HanamiId.logger.info "Generating #{name} app!"
         HanamiId.model_name = model
@@ -118,28 +120,32 @@ module HanamiId
           actions.each do |action, verb|
             next unless modules.include? controller_name
 
-            HanamiId.logger.info(
-              "Generating #{verb} #{controller_name}##{action}"
-            )
-            Hanami::CLI::Commands::Generate::Action.new(
-              command_name: "generate action"
-            ).call(
-              app: context.app,
-              action: "#{controller_name}##{action}",
-              method: verb
-            )
-            # binding.pry
-            # action_code = generate_code(controller_name, action)
-            action_code = generate_code('registrations', 'create')
-            destination = project.action(
-              context.with(
-                controller: controller_name,
-                action: action
-              )
-            )
-            files.inject_line_after(destination, /def call/, action_code)
+            generate_action(controller_name, action, verb)
           end
         end
+      end
+
+      def generate_action(controller_name, action, verb)
+        HanamiId.logger.info(
+          "Generating #{verb} #{controller_name}##{action}"
+        )
+        Hanami::CLI::Commands::Generate::Action.new(
+          command_name: "generate action"
+        ).call(
+          app: context.app,
+          action: "#{controller_name}##{action}",
+          method: verb
+        )
+        # binding.pry
+        # action_code = generate_code(controller_name, action)
+        action_code = generate_code("registrations", "create")
+        destination = project.action(
+          context.with(
+            controller: controller_name,
+            action: action
+          )
+        )
+        files.inject_line_after(destination, /def call/, action_code)
       end
 
       def inject_warden_helper
@@ -151,8 +157,8 @@ module HanamiId
       end
 
       def generate_code(controller_name, action)
-        template = auth_templates.join 'controllers', controller_name,
-          "#{action}.erb"
+        template = auth_templates.join "controllers", controller_name,
+                                       "#{action}.erb"
         render(template.to_s, context)
       end
     end
@@ -160,3 +166,5 @@ module HanamiId
 end
 
 Hanami::CLI::Commands.register "generate auth", HanamiId::Generate::Auth
+
+# rubocop:enable Metrics/ClassLength
