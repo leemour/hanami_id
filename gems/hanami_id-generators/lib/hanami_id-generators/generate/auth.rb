@@ -162,11 +162,11 @@ module HanamiId
       def add_initializer(mode)
         source = auth_templates.join("config.erb").to_s
         destination = if mode == "project"
+          File.join project.initializers, "hanami_id.rb"
+        else
           project.root.join(
             "apps", context.app, "config", "hanami_id.rb"
           )
-        else
-          File.join project.initializers, "hanami_id.rb"
         end
         generate_file(source, destination, context)
         say(:create, destination)

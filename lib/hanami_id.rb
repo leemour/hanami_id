@@ -18,7 +18,7 @@ module HanamiId
   class << self
     attr_accessor :logger
     attr_accessor :model_name
-    attr_accessor :auth_app_name
+    attr_accessor :app_name
     attr_accessor :failure_app
     attr_accessor :default_modules
 
@@ -41,14 +41,18 @@ module HanamiId
     def classify(string)
       Hanami::Utils::String.classify string
     end
+
+    def app
+      @app ||= Module.const_get(@app_name)
+    end
   end
 
   # Defaults
   @logger = ::Logger.new(STDOUT)
   @model_name = "user"
-  @auth_app_name = "Auth"
+  @app_name = "Auth"
   @failure_app = lambda do |env|
-    auth_app::Controllers::Session::New.new(
+    HanamiId.app::Controllers::Session::New.new(
       login_failed_with: env["warden"].message
     ).call(env)
   end
