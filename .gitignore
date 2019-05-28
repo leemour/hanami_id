@@ -24,5 +24,6 @@ pkg/
 coverage
 spec/reports
 spec/tmp
-#spec/dummy/apps/auth
+spec/dummy/apps/auth
+spec/dummy/db/*.sqlite
 .rspec_status

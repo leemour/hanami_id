@@ -13,12 +13,14 @@ module HanamiId
       option :model, default: "user", desc: "User model name"
       option :modules, type: :array, values: HanamiId::MODULES,
         default: HanamiId.default_modules, desc: "List of modules"
+      option :mode, values: HanamiId::MODES, default: "standalone",
+        desc: "Level of itegration in project apps (callbacks, helpers etc.)"
 
       example [
         ""
       ]
 
-      def call(app:, model:, **_options)
+      def call(app:, model:, mode:, **_options)
         HanamiId.logger.info "Destroying #{app} app!"
         HanamiId.model_name = model
         Hanami::CLI::Commands::Destroy::App.new(
@@ -27,6 +29,10 @@ module HanamiId
 
         remove_lib_app_directory(app)
         remove_default_migration
+        return unless mode == "project"
+
+        # remove_config
+        remove_initializer
       end
 
       private
@@ -47,6 +53,19 @@ module HanamiId
         return unless files.exist?(destination)
 
         files.delete(destination)
+        say(:remove, destination)
+      end
+
+      def remove_config
+        # TODO: remove project-wide integration
+        raise "Not implemented"
+      end
+
+      def remove_initializer
+        destination = File.join project.initializers, "hanami_id.rb"
+        return unless files.exist?(destination)
+
+        files.delete destination
         say(:remove, destination)
       end
     end

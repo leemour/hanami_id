@@ -4,8 +4,6 @@ require 'pry'
 
 module Web
   class Application < Hanami::Application
-    include HanamiId::Warden::AppHelper
-
     configure do
       ##
       # BASIC

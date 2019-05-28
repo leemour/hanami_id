@@ -10,6 +10,7 @@ require "hanami_id/warden/strategy"
 require "hanami_id/warden/app_helper"
 
 module HanamiId
+  MODES = %w[standalone project].freeze
   MODULES = %w[sessions registrations].freeze
 
   class AuthError < StandardError; end

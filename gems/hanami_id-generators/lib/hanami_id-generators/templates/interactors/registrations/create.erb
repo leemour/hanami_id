@@ -1,0 +1,18 @@
+require 'hanami/interactor'
+
+module Interactors
+  module Registrations
+    class Create
+      include Hanami::Interactor
+
+      def initialize
+        # set up the object
+      end
+
+      def call(book_attributes)
+        <%= model %> = <%= HanamiId.classify model %>.new(params[:login], params[:password])
+        <%= HanamiId.classify repository %>.create(<%= model %>)
+      end
+    end
+  end
+end

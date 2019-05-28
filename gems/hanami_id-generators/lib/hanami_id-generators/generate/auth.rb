@@ -36,6 +36,8 @@ module HanamiId
       option :login_column, default: "email", desc: "Login column in the DB"
       option :password_column, default: "password_hash",
         desc: "Password column in the DB"
+      option :mode, values: HanamiId::MODES, default: "standalone",
+        desc: "Level of itegration in project apps (callbacks, helpers etc.)"
 
       example [
         "--app auth --model account --modules registrations"
@@ -49,9 +51,10 @@ module HanamiId
         @auth_templates = HanamiId::Generators.templates
       end
 
+      # rubocop:disable Metrics/AbcSize
       def call(
         app:, model:, modules:, login_column:, password_column:, id_type:,
-        **options
+        mode:, **options
       )
         HanamiId.logger.info "Generating #{app} app!"
         HanamiId.model_name = model
@@ -72,8 +75,12 @@ module HanamiId
         generate_default_migration
         generate_default_actions(modules)
         generate_default_routes
+        add_initializer(mode)
+        add_config if mode == "project"
+        inject_authentication_require
         inject_warden_helper
       end
+      # rubocop:enable Metrics/AbcSize
 
       private
 
@@ -149,13 +156,40 @@ module HanamiId
           )
         )
         files.inject_line_after(destination, /def call/, action_code)
+        say(:insert, destination)
+      end
+
+      def add_initializer(mode)
+        source = auth_templates.join("config.erb").to_s
+        destination = if mode == "project"
+          project.root.join(
+            "apps", context.app, "config", "hanami_id.rb"
+          )
+        else
+          File.join project.initializers, "hanami_id.rb"
+        end
+        generate_file(source, destination, context)
+        say(:create, destination)
+      end
+
+      def add_config
+        # TODO: add project-wide integration
+        raise "Not implemented"
+      end
+
+      def inject_authentication_require
+        content = "require \"hanami_id/authentication\""
+        destination = project.app_application(context)
+
+        files.inject_line_before(destination, "", content)
+        say(:insert, destination)
       end
 
       def inject_warden_helper
         content = "      include HanamiId::Warden::AppHelper"
         destination = project.app_application(context)
 
-        files.inject_line_after_last(destination, /configure do/, content)
+        files.inject_line_after_last(destination, /Application </, content)
         say(:insert, destination)
       end
 
