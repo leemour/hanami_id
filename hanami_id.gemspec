@@ -11,7 +11,11 @@ Gem::Specification.new do |spec|
   spec.email        = ["leemour@gmail.com"]
 
   spec.summary      = "Authentication for Hanami framework"
-  spec.description  = spec.summary
+  spec.description  = <<~DESC
+    Fully-fledged flexible authentication solution based on Bcrypt and Warden.
+    Instead of magic inervention it acts isolated and generates a new
+    authentication app with all the code you need.
+  DESC
   spec.homepage     = "https://github.com/leemour/hanami_id"
   spec.license      = "MIT"
   spec.required_ruby_version = "~> 2.3"
@@ -37,10 +41,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 2"
   spec.add_development_dependency "hanami", "~> 1.3"
   spec.add_development_dependency "hanami-model", "~> 1.3"
-  spec.add_development_dependency "pry", "~> 0.12"
+  spec.add_development_dependency "pry-byebug", "~> 3.7"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "rubocop-md"
-  spec.add_development_dependency "rubocop-performance"
-  spec.add_development_dependency "rubocop-rspec"
+  spec.add_development_dependency "rubocop-md", "~> 0.3"
+  spec.add_development_dependency "rubocop-performance", "~> 1.3"
+  spec.add_development_dependency "rubocop-rspec", "~> 1.3"
+  spec.add_development_dependency "simplecov", "~> 0.16"
 end

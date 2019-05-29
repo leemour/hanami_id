@@ -19,6 +19,7 @@ doc
 
 # Ignore packages
 pkg/
+*.gem
 
 # Ignore test artifacts
 coverage
