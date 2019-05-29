@@ -13,8 +13,8 @@ Gem::Specification.new do |spec|
   spec.summary      = "Authentication for Hanami framework"
   spec.description  = <<~DESC
     Fully-fledged flexible authentication solution based on Bcrypt and Warden.
-    Instead of magic inervention it acts isolated and generates a new
-    authentication app with all the code you need.
+    Instead of magic intervention it acts isolated and generates a new
+    authentication app with all the code you need. I fully supports I18n.
   DESC
   spec.homepage     = "https://github.com/leemour/hanami_id"
   spec.license      = "MIT"
@@ -28,13 +28,15 @@ Gem::Specification.new do |spec|
   end
 
   spec.files = Dir[
-    "lib/**/*", "CHANGELOG.md", "CODE_OF_CONDUCT.md", "LICENSE.txt", "README.md"
+    "lib/**/*", "locales/**/*", "CHANGELOG.md", "CODE_OF_CONDUCT.md",
+    "LICENSE.txt", "README.md"
   ]
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
   spec.add_dependency "bcrypt", "~> 3.1"
+  spec.add_dependency "hanami_id-generators", "~> 0.1"
   spec.add_dependency "i18n", "~> 1.6"
   spec.add_dependency "warden", "~> 1.2"
 

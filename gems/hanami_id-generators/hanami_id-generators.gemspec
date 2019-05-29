@@ -11,7 +11,10 @@ Gem::Specification.new do |spec|
   spec.email        = ["leemour@gmail.com"]
 
   spec.summary      = "Generators for HanamiId"
-  spec.description  = spec.summary
+  spec.description  = <<~DESC
+    Generates authentication app with all controller actions, views and
+    templates.
+  DESC
   spec.homepage     = "https://github.com/leemour/hanami_id/gems/hanami_id-generators"
   spec.license      = "MIT"
   spec.required_ruby_version = "~> 2.3"
@@ -23,13 +26,13 @@ Gem::Specification.new do |spec|
     spec.metadata["changelog_uri"] = "#{spec.homepage}/CHANGELOG.md"
   end
 
-  spec.files = Dir["lib/**/*"]
+  spec.files = Dir["lib/**/*", "LICENSE.txt", "README.md"]
   spec.require_paths = ["lib"]
 
   spec.add_dependency "hanami", "~> 1.3"
 
   spec.add_development_dependency "bundler", "~> 2"
-  spec.add_development_dependency "pry", "~> 0.12"
+  spec.add_development_dependency "pry-byebug", "~> 0.12"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
 end

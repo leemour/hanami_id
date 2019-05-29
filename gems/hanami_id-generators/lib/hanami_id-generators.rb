@@ -2,7 +2,6 @@
 
 # frozen_string_literal: true
 
-require "hanami_id-generators/path"
 require "hanami_id"
 
 module HanamiId
@@ -12,7 +11,7 @@ module HanamiId
       attr_accessor :templates
     end
 
-    @root = Path.new File.expand_path(File.dirname(__dir__))
+    @root = Pathname.new File.expand_path(File.dirname(__dir__))
     @templates = @root.join "lib", "hanami_id-generators", "templates"
   end
 end
