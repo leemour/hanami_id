@@ -4,7 +4,7 @@
 
 require "hanami_id"
 # TODO: remove pry
-require "pry-byebug"
+# require "pry-byebug"
 
 module HanamiId
   module Generators
