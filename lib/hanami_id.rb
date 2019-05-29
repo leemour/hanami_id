@@ -2,8 +2,10 @@
 
 require "bcrypt"
 require "i18n"
-require "warden"
 require "logger"
+# TODO: remove pry
+require "pry-byebug"
+require "warden"
 
 require "hanami_id/version"
 require "hanami_id/warden/strategy"

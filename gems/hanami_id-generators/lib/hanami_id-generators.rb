@@ -3,6 +3,8 @@
 # frozen_string_literal: true
 
 require "hanami_id"
+# TODO: remove pry
+require "pry-byebug"
 
 module HanamiId
   module Generators
@@ -15,9 +17,6 @@ module HanamiId
     @templates = @root.join "lib", "hanami_id-generators", "templates"
   end
 end
-
-# TODO: remove pry
-require "pry"
 
 require "hanami_id-generators/version"
 require "hanami_id-generators/destroy/auth"
