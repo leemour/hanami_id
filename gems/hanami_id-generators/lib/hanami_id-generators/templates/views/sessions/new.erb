@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+module <%= app %>::Views::Sessions
+  class New
+    include <%= app %>::View
+
+    def form
+      form_for :sessions, routes.sessions_path do
+        label :email
+        email_field :email
+
+        label :password
+        password_field :password
+
+        submit I18n.t('hanami_id.sessions.new.sign_in')
+      end
+    end
+  end
+end

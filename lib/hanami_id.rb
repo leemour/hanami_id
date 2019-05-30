@@ -10,10 +10,12 @@ require "warden"
 require "hanami_id/version"
 require "hanami_id/warden/strategy"
 require "hanami_id/warden/app_helper"
+require "hanami_id/password"
 
 module HanamiId
   MODES = %w[standalone project].freeze
   MODULES = %w[sessions registrations].freeze
+  STRATEGIES = %i[password].freeze
 
   class AuthError < StandardError; end
 
@@ -23,6 +25,7 @@ module HanamiId
     attr_accessor :app_name
     attr_accessor :failure_app
     attr_accessor :default_modules
+    attr_accessor :strategies
 
     def configure
       yield self
@@ -59,6 +62,7 @@ module HanamiId
     ).call(env)
   end
   @default_modules = %w[sessions registrations].freeze
+  @strategies = %w[password]
 end
 
 I18n.tap do |i18n|

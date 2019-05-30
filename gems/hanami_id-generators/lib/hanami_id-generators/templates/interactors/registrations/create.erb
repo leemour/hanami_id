@@ -1,17 +1,38 @@
+# frozen_string_literal: true
+
 require 'hanami/interactor'
 
-module Interactors
-  module Registrations
-    class Create
-      include Hanami::Interactor
+module <%= HanamiId.app_name %>
+  module Interactors
+    module Registrations
+      class Create
+        include Hanami::Interactor
+        expose :params
+        expose :<%= model %>
 
-      def initialize
-        # set up the object
-      end
+        def initialize(repository: <%= HanamiId.classify repository %>)
+          @repository = repository
+        end
 
-      def call(book_attributes)
-        <%= model %> = <%= HanamiId.classify model %>.new(params[:login], params[:password])
-        <%= HanamiId.classify repository %>.create(<%= model %>)
+        def call(params)
+          @params = params
+          <%= model %> = <%= HanamiId.classify model %>.new(
+            <%= login_column %>: params[:login],
+            <%= password_column %>: encrypt(params[:password]),
+            <%= "#{password_column}_confirmation" %>: encrypt(params[:password__confirmation])
+          )
+          @<%= model %> = @repository.create(<%= model %>)
+        end
+
+        private
+
+        def valid?
+          params.valid?
+        end
+
+        def encrypt(password)
+          HanamiId::Password.encrypt(password)
+        end
       end
     end
   end

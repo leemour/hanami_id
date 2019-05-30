@@ -6,7 +6,11 @@ Warden::Strategies.add(:password) do
   end
 
   def authenticate!
-    user = HanamiId.repository.authenticate(params[:login], params[:password])
-    user.nil? ? fail!(I18n.t("errors.authentication_failed")) : success!(user)
+    resource = HanamiId.repository.authenticate(
+      params[:login],
+      params[:password]
+    )
+    resource ? success!(resource) : nil
   end
 end
+

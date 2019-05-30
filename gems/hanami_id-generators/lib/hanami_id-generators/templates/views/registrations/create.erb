@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+module <%= app %>
+  module Views
+    module Registrations
+      class Create
+        include <%= app %>::View
+
+        template '<%= Hanami::Utils::Inflector.pluralize model %>/new'
+      end
+    end
+  end
+end
