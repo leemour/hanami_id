@@ -19,6 +19,7 @@ matrix:
     - rvm: truffleruby
 before_install:
   - gem install bundler -v '2.0.1'
+  - bundle config specific_platform true
 before_script:
   - mysql -e 'create database hanami_id_test;'
   - psql -c 'create database hanami_id_test;' -U postgres
