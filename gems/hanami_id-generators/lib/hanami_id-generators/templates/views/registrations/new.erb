@@ -2,19 +2,22 @@
 
 module <%= HanamiId.classify app %>
   module Views
-    module Sessions
-      class New
+    module Registrations
+      class Create
         include <%= HanamiId.classify app %>::View
 
         def form
-          form_for :session, routes.sessions_path do
+          form_for :registration, routes.registrations_path do
             label :email
             email_field :email
 
             label :password
             password_field :password
 
-            submit I18n.t('hanami_id.sessions.new.sign_in')
+            label :password_confimation
+            password_field :password_confimation
+
+            submit I18n.t('hanami_id.registrations.new.sign_up')
           end
         end
       end

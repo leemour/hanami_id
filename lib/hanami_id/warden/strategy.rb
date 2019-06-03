@@ -13,4 +13,3 @@ Warden::Strategies.add(:password) do
     resource ? success!(resource) : nil
   end
 end
-

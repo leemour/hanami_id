@@ -3,8 +3,7 @@
 class <%= HanamiId.classify repository %> < Hanami::Repository
   def authenticate(login, password)
     resource = find_by(<%= login_column %>: login)
-    if resource
-      resouce.<%= password_column %> == HanamiId::Password.encrypt(password)
+    if resource && resouce.<%= password_column %> == HanamiId::Password.encrypt(password)
       resource
     else
       nil

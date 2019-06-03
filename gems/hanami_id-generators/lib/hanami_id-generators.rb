@@ -3,8 +3,6 @@
 # frozen_string_literal: true
 
 require "hanami_id"
-# TODO: remove pry
-# require "pry-byebug"
 
 module HanamiId
   module Generators

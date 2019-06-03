@@ -19,7 +19,7 @@ module HanamiId
       params.env["warden"].set_user(resource)
     end
 
-    def log_out(resource)
+    def log_out(_resource)
       params.env["warden"].logout
     end
 

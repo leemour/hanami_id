@@ -2,11 +2,11 @@
 
 module <%= HanamiId.classify app %>
   module Views
-    module Registrations
+    module Sessions
       class Create
         include <%= HanamiId.classify app %>::View
 
-        template 'registrations/new'
+        template 'sessions/new'
       end
     end
   end
