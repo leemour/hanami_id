@@ -8,6 +8,8 @@ gem 'hanami_id', path: '../..'
 
 gem 'sqlite3'
 
+gem 'puma'
+
 group :development do
   # Code reloading
   # See: http://hanamirb.org/guides/projects/code-reloading
@@ -22,11 +24,10 @@ end
 group :test do
   # gem 'rspec'
   # gem 'capybara'
-  gem 'pry'
+  gem 'pry-byebug'
 end
 
 group :production do
-  # gem 'puma'
 end
 
 group :plugins do

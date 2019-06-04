@@ -1,0 +1,10 @@
+        expose :failure_message
+
+        def initialize(login_failed_with: nil)
+          @failure_message = login_failed_with
+        end
+
+        def call(params)
+          log_out
+          redirect_to routes.root_path
+        end

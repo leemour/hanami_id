@@ -18,13 +18,37 @@ module HanamiId
         "registrations" => {
           "index"  => "GET",
           "new"    => "GET",
-          "create" => "POST",
-          "edit"   => "GET",
-          "show"   => "GET",
-          "update" => "PUT",
-          "delete" => "DELETE"
+          "create" => "POST"
+          # "edit"   => "GET",
+          # "show"   => "GET",
+          # "update" => "PUT",
+          # "delete" => "DELETE"
         }
       }.freeze
+      TEMPLATES = {
+        "sessions"      => %w[
+          new
+        ],
+        "registrations" => %w[
+          index
+          new
+        ]
+      }.freeze
+      VIEWS = {
+        "sessions"      => %w[
+          _form
+          create
+          new
+        ],
+        "registrations" => %w[
+          _form
+          create
+          new
+        ]
+      }.freeze
+
+      attr_accessor :auth_templates
+      attr_accessor :context
 
       desc "Generate app with hanami_id integration"
 
@@ -42,9 +66,6 @@ module HanamiId
       example [
         "--app auth --model account --modules registrations"
       ]
-
-      attr_accessor :auth_templates
-      attr_accessor :context
 
       def initialize(*args)
         super
@@ -74,11 +95,15 @@ module HanamiId
         generate_default_repository
         generate_default_migration
         generate_default_actions(modules)
+        generate_default_views(modules)
+        generate_default_templates(modules)
+        generate_default_interactors
         generate_default_routes
-        add_initializer(mode)
-        add_config if mode == "project"
-        inject_authentication_require
+        generate_initializer(mode)
+        generate_config if mode == "project"
+        inject_authentication_helpers
         inject_warden_helper
+        configure_app
       end
       # rubocop:enable Metrics/AbcSize
 
@@ -88,14 +113,6 @@ module HanamiId
         Hanami::CLI::Commands::Generate::App.new(
           command_name: "generate app"
         ).call(app: context.app)
-      end
-
-      def generate_default_routes
-        source = auth_templates.join("routes.erb").to_s
-        destination = project.app_routes(context)
-
-        generate_file(source, destination, context)
-        say(:create, destination)
       end
 
       def generate_default_entity
@@ -125,6 +142,26 @@ module HanamiId
         say(:create, destination)
       end
 
+      def generate_default_interactors
+        source = auth_templates.join(
+          "interactors", "registrations", "create.erb"
+        ).to_s
+        destination = project.root.join(
+          "lib", context.app, "interactors", "registrations", "create.rb"
+        )
+
+        generate_file(source, destination, context)
+        say(:create, destination)
+      end
+
+      def generate_default_routes
+        source = auth_templates.join("routes.erb").to_s
+        destination = project.app_routes(context)
+
+        generate_file(source, destination, context)
+        say(:create, destination)
+      end
+
       def generate_default_actions(modules)
         CONTROLLER_ACTIONS.each do |controller_name, actions|
           actions.each do |action, verb|
@@ -135,9 +172,30 @@ module HanamiId
         end
       end
 
+      def generate_default_views(modules)
+        VIEWS.each do |controller_name, actions|
+          actions.each do |action|
+            next unless modules.include? controller_name
+
+            generate_view(controller_name, action)
+          end
+        end
+      end
+
+      def generate_default_templates(modules)
+        TEMPLATES.each do |controller_name, actions|
+          actions.each do |action|
+            next unless modules.include? controller_name
+
+            generate_template(controller_name, action)
+          end
+        end
+      end
+
+      # rubocop:disable Metrics/AbcSize
       def generate_action(controller_name, action, verb)
         HanamiId.logger.info(
-          "Generating #{verb} #{controller_name}##{action}"
+          "Generating controller #{verb} #{controller_name}##{action}"
         )
         Hanami::CLI::Commands::Generate::Action.new(
           command_name: "generate action"
@@ -146,20 +204,56 @@ module HanamiId
           action: "#{controller_name}##{action}",
           method: verb
         )
-        # binding.pry
-        # action_code = generate_code(controller_name, action)
-        action_code = generate_code("registrations", "create")
+        content = generate_code("controllers", controller_name, action)
         destination = project.action(
           context.with(
             controller: controller_name,
             action: action
           )
         )
-        files.inject_line_after(destination, /def call/, action_code)
+        files.remove_block(destination, "def call")
+        files.inject_line_before(destination, "end", content)
         say(:insert, destination)
       end
+      # rubocop:enable Metrics/AbcSize
 
-      def add_initializer(mode)
+      def generate_view(controller_name, action)
+        HanamiId.logger.info(
+          "Generating view #{controller_name}##{action}"
+        )
+        source = auth_templates.join(
+          "views", controller_name, "#{action}.erb"
+        )
+        destination = project.view(
+          context.with(
+            controller: controller_name,
+            action: action,
+            template: "erb"
+          )
+        )
+        generate_file(source, destination, context)
+        say(:create, destination)
+      end
+
+      def generate_template(controller_name, action)
+        HanamiId.logger.info(
+          "Generating template #{controller_name}##{action}"
+        )
+        source = auth_templates.join(
+          "templates", controller_name, "#{action}.html.erb"
+        )
+        destination = project.template(
+          context.with(
+            controller: controller_name,
+            action: action,
+            options: {template: "erb"}
+          )
+        )
+        generate_file(source, destination, context)
+        say(:create, destination)
+      end
+
+      def generate_initializer(mode)
         source = auth_templates.join("config.erb").to_s
         destination = if mode == "project"
           File.join project.initializers, "hanami_id.rb"
@@ -172,9 +266,14 @@ module HanamiId
         say(:create, destination)
       end
 
-      def add_config
+      def generate_config
         # TODO: add project-wide integration
         raise "Not implemented"
+      end
+
+      def inject_authentication_helpers
+        inject_authentication_require
+        inject_authentication_include
       end
 
       def inject_authentication_require
@@ -185,17 +284,43 @@ module HanamiId
         say(:insert, destination)
       end
 
+      def inject_authentication_include
+        content = <<-INC
+      controller.prepare do
+        include HanamiId::Authentication
+      end
+        INC
+        destination = project.app_application(context)
+
+        files.inject_line_after(destination, "configure do", content)
+        say(:insert, destination)
+      end
+
       def inject_warden_helper
-        content = "      include HanamiId::Warden::AppHelper"
+        content = "    include HanamiId::Warden::AppHelper\n"
         destination = project.app_application(context)
 
         files.inject_line_after_last(destination, /Application </, content)
         say(:insert, destination)
       end
 
-      def generate_code(controller_name, action)
+      def configure_app
+        destination = project.app_application(context)
+        [
+          "cookies max_age: 300",
+          "sessions :cookie, secret: ENV['#{context.app.upcase}_SESSIONS_SECRET']"
+        ].each do |content|
+          files.inject_line_before(
+            destination, "# #{content}", "      #{content}"
+          )
+          files.remove_line(destination, "# #{content}")
+        end
+        say(:insert, destination)
+      end
+
+      def generate_code(folder, subfolder, file)
         template = auth_templates.join(
-          "controllers", controller_name, "#{action}.erb"
+          folder, subfolder, "#{file}.erb"
         )
         render(template.to_s, context)
       end

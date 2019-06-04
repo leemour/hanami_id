@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+module <%= HanamiId.classify app %>
+  module Views
+    module Sessions
+      class Create
+        include <%= HanamiId.classify app %>::View
+        include Form
+
+        template 'sessions/new'
+      end
+    end
+  end
+end

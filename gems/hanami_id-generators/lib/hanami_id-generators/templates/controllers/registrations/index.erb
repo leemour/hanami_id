@@ -1,0 +1,9 @@
+        expose :<%= Hanami::Utils::Inflector.pluralize model %>
+
+        def initialize(repository: <%= HanamiId.classify repository %>.new)
+          @repository = repository
+        end
+
+        def call(params)
+          @<%= Hanami::Utils::Inflector.pluralize model %> = @repository.all
+        end

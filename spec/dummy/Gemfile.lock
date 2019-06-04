@@ -1,27 +1,29 @@
 PATH
   remote: ../../gems/hanami_id-generators
   specs:
-    hanami_id-generators (0.1.0)
+    hanami_id-generators (0.1.2)
       hanami (~> 1.3)
 
 PATH
   remote: ../..
   specs:
-    hanami_id (0.2.0)
+    hanami_id (0.2.2)
       bcrypt (~> 3.1)
+      hanami_id-generators (~> 0.1)
       i18n (~> 1.6)
       warden (~> 1.2)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    bcrypt (3.1.12)
+    bcrypt (3.1.13)
     better_errors (2.5.1)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
+    byebug (11.0.1)
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
     debug_inspector (0.0.3)
@@ -129,6 +131,10 @@ GEM
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
+    pry-byebug (3.7.0)
+      byebug (~> 11.0)
+      pry (~> 0.10)
+    puma (3.12.1)
     rack (2.0.7)
     rake (12.3.2)
     rom (3.3.3)
@@ -174,7 +180,8 @@ DEPENDENCIES
   hanami-webconsole
   hanami_id!
   hanami_id-generators!
-  pry
+  pry-byebug
+  puma
   rake
   shotgun
   sqlite3

@@ -1,20 +1,22 @@
-        def initialize(operation: Interactors::Registrations::Create.new)
+        def initialize(operation: <%= HanamiId.app_name %>::Interactors::Registrations::Create.new)
           @operation = operation
         end
 
         params do
-          required(:<%= HanamiId.model_name %>).schema do
-            required(:email) { filled? & str? & format?(URI::MailTo::EMAIL_REGEXP) }
-            required(:password) { filled? & str? & size?(6..64) }
+          required(:registration).schema do
+            required(:login).filled(:str?, format?: URI::MailTo::EMAIL_REGEXP)
+            required(:password).filled(:str?, size?: (6..64)).confirmation
           end
         end
 
-        def call()
-          if params.valid?
-            <%= HanamiId.model_name %> = @operation.call(params[:<%= HanamiId.model_name %>])
-            params.env["warden"].set_user(<%= HanamiId.model_name %>)
+        def call(params)
+          result = @operation.call(params)
+          if result.success?
+            log_in result.user
+            flash[:success] = I18n.t('hanami_id.registrations.signed_up')
             redirect_to routes.root_path
           else
+            flash[:error] = I18n.t('hanami_id.failure.invalid')
             self.status = 422
           end
         end

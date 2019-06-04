@@ -6,6 +6,9 @@ require "hanami_id"
 # Require dummy Hanami app
 require "dummy/config/environment"
 
+# TODO: remove pry
+# require "pry-byebug"
+
 Warden.test_mode!
 
 RSpec.configure do |config|

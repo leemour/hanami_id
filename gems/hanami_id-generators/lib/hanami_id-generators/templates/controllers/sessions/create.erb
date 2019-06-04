@@ -1,0 +1,12 @@
+        params do
+          required(:session).schema do
+            required(:login) { filled? & str? }
+            required(:password) { filled? & str? }
+          end
+        end
+
+        def call(params)
+          authenticate_<%= model %>!
+          flash[:success] = I18n.t('hanami_id.sessions.signed_in')
+          redirect_to routes.root_path
+        end

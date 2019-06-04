@@ -2,29 +2,41 @@
 
 module HanamiId
   module Authentication
-    model = HanamiId.model_name
+    resource = HanamiId.model_name
 
-    attr_reader :"current_#{model}"
+    attr_reader :"current_#{resource}"
 
     def self.included(action)
       action.class_eval do
-        before :"authenticate_#{model}!"
-        expose :"current_#{model}"
+        # before :"authenticate_#{HanamiId.model_name}!"
+        expose :"current_#{HanamiId.model_name}"
       end
     end
 
     private
 
-    define_method "authenticate_#{model}!" do
-      instance_variable_set(
-        "@current_#{model}",
-        HanamiId.repostiory.new.find(session["#{model}_id"])
-      )
-      halt 401 unless send("#{model}_signed_in?")
+    def log_in(resource)
+      params.env["warden"].set_user(resource)
     end
 
-    define_method "#{model}_signed_in?" do
-      !!send("current_#{model}")
+    def log_out(_resource)
+      params.env["warden"].logout
+    end
+
+    define_method "authenticate_#{resource}!" do
+      send("authenticate_#{resource}")
+      halt 401 unless send("#{resource}_signed_in?")
+    end
+
+    define_method "authenticate_#{resource}" do
+      instance_variable_set(
+        "@current_#{resource}",
+        params.env["warden"].authenticate!(*HanamiId.strategies)
+      )
+    end
+
+    define_method "#{resource}_signed_in?" do
+      !!send("current_#{resource}")
     end
   end
 end

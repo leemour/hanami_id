@@ -1,0 +1,9 @@
+        expose :failure_message
+
+        def initialize(login_failed_with: nil)
+          @failure_message = login_failed_with
+        end
+
+        def call(_params)
+          self.status = 403 if @failure_message
+        end
