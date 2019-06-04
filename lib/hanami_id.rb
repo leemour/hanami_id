@@ -49,6 +49,10 @@ module HanamiId
       Hanami::Utils::String.classify string
     end
 
+    def pluralize(string)
+      Hanami::Utils::Inflector.pluralize string
+    end
+
     def app
       @app ||= Module.const_get(@app_name)
     end

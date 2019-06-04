@@ -308,7 +308,8 @@ module HanamiId
         destination = project.app_application(context)
         [
           "cookies max_age: 300",
-          "sessions :cookie, secret: ENV['#{context.app.upcase}_SESSIONS_SECRET']"
+          "sessions :cookie, secret: " \
+            "ENV['#{context.app.upcase}_SESSIONS_SECRET']"
         ].each do |content|
           files.inject_line_before(
             destination, "# #{content}", "      #{content}"

@@ -41,8 +41,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency "warden", "~> 1.2"
 
   spec.add_development_dependency "bundler", "~> 2"
+  spec.add_development_dependency "bundler-audit", "~> 0.6"
   spec.add_development_dependency "hanami", "~> 1.3"
   spec.add_development_dependency "hanami-model", "~> 1.3"
+  spec.add_development_dependency "overcommit", "~> 0.48"
   spec.add_development_dependency "pry-byebug", "~> 3.7"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
