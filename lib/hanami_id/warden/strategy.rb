@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
-Warden::Strategies.add(:password) do
+::Warden::Strategies.add(:password) do
   def valid?
-    params[:login] || params[:password]
+    params.key? "session"
   end
 
   def authenticate!
-    resource = HanamiId.repository.authenticate(
-      params[:login],
-      params[:password]
+    session = params["session"]
+    resource = HanamiId.repository.new.authenticate(
+      session["login"],
+      session["password"]
     )
     resource ? success!(resource) : nil
   end

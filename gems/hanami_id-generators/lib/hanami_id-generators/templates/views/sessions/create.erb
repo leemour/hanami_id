@@ -5,6 +5,7 @@ module <%= HanamiId.classify app %>
     module Sessions
       class Create
         include <%= HanamiId.classify app %>::View
+        include Form
 
         template 'sessions/new'
       end

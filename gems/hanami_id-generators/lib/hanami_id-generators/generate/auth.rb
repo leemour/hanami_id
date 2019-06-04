@@ -16,7 +16,7 @@ module HanamiId
           "delete" => "DELETE"
         },
         "registrations" => {
-          # "index"  => "GET",
+          "index"  => "GET",
           "new"    => "GET",
           "create" => "POST"
           # "edit"   => "GET",
@@ -26,23 +26,29 @@ module HanamiId
         }
       }.freeze
       TEMPLATES = {
-        "sessions"      => [
-          "new"
+        "sessions"      => %w[
+          new
         ],
-        "registrations" => [
-          "new"
+        "registrations" => %w[
+          index
+          new
         ]
       }.freeze
       VIEWS = {
         "sessions"      => %w[
+          _form
           create
           new
         ],
         "registrations" => %w[
+          _form
           create
           new
         ]
       }.freeze
+
+      attr_accessor :auth_templates
+      attr_accessor :context
 
       desc "Generate app with hanami_id integration"
 
@@ -60,9 +66,6 @@ module HanamiId
       example [
         "--app auth --model account --modules registrations"
       ]
-
-      attr_accessor :auth_templates
-      attr_accessor :context
 
       def initialize(*args)
         super
@@ -98,8 +101,9 @@ module HanamiId
         generate_default_routes
         generate_initializer(mode)
         generate_config if mode == "project"
-        inject_authentication_require
+        inject_authentication_helpers
         inject_warden_helper
+        configure_app
       end
       # rubocop:enable Metrics/AbcSize
 
@@ -267,6 +271,11 @@ module HanamiId
         raise "Not implemented"
       end
 
+      def inject_authentication_helpers
+        inject_authentication_require
+        inject_authentication_include
+      end
+
       def inject_authentication_require
         content = "require \"hanami_id/authentication\""
         destination = project.app_application(context)
@@ -275,11 +284,37 @@ module HanamiId
         say(:insert, destination)
       end
 
+      def inject_authentication_include
+        content = <<-INC
+      controller.prepare do
+        include HanamiId::Authentication
+      end
+        INC
+        destination = project.app_application(context)
+
+        files.inject_line_after(destination, "configure do", content)
+        say(:insert, destination)
+      end
+
       def inject_warden_helper
         content = "    include HanamiId::Warden::AppHelper\n"
         destination = project.app_application(context)
 
         files.inject_line_after_last(destination, /Application </, content)
+        say(:insert, destination)
+      end
+
+      def configure_app
+        destination = project.app_application(context)
+        [
+          "cookies max_age: 300",
+          "sessions :cookie, secret: ENV['#{context.app.upcase}_SESSIONS_SECRET']"
+        ].each do |content|
+          files.inject_line_before(
+            destination, "# #{content}", "      #{content}"
+          )
+          files.remove_line(destination, "# #{content}")
+        end
         say(:insert, destination)
       end
 

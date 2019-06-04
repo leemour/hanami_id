@@ -1,0 +1,14 @@
+<h1>Registrations</h1>
+
+<%% if <%= Hanami::Utils::Inflector.pluralize model %>.any? %>
+  <div class="<%= Hanami::Utils::Inflector.pluralize model %>">
+    <%% <%= Hanami::Utils::Inflector.pluralize model %>.each do |<%= model %>| %>
+      <div class="<%= model %>">
+        <h2><%%= <%= model %>.email %></h2>
+        <p><%%= <%= model %>.created_at %></p>
+      </div>
+    <%% end %>
+  </div>
+<%% else %>
+  <p class="placeholder">There are no <%= Hanami::Utils::Inflector.pluralize model %> yet.</p>
+<%% end %>

@@ -10,23 +10,22 @@ module <%= HanamiId.app_name %>
         expose :params
         expose :<%= model %>
 
-        def initialize(repository: <%= HanamiId.classify repository %>)
+        def initialize(repository: <%= HanamiId.classify repository %>.new)
           @repository = repository
         end
 
         def call(params)
-          @params = params
+          @params = params[:registration]
           <%= model %> = <%= HanamiId.classify model %>.new(
-            <%= login_column %>: params[:login],
-            <%= password_column %>: encrypt(params[:password]),
-            <%= "#{password_column}_confirmation" %>: encrypt(params[:password__confirmation])
+            <%= login_column %>: @params[:login],
+            <%= password_column %>: encrypt(@params[:password])
           )
           @<%= model %> = @repository.create(<%= model %>)
         end
 
         private
 
-        def valid?
+        def valid?(params)
           params.valid?
         end
 

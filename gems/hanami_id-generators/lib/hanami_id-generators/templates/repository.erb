@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 class <%= HanamiId.classify repository %> < Hanami::Repository
+  def find_by_<%= login_column %>(<%= login_column %>)
+    <%= Hanami::Utils::Inflector.pluralize model %>.where(<%= login_column %>: <%= login_column %>).first
+  end
+
   def authenticate(login, password)
-    resource = find_by(<%= login_column %>: login)
-    if resource && resouce.<%= password_column %> == HanamiId::Password.encrypt(password)
+    resource = find_by_<%= login_column %>(login)
+    if resource && resource.<%= password_column %> == HanamiId::Password.encrypt(password)
       resource
     else
       nil

@@ -5,18 +5,7 @@ module <%= HanamiId.classify app %>
     module Sessions
       class New
         include <%= HanamiId.classify app %>::View
-
-        def form
-          form_for :session, routes.sessions_path do
-            label :email
-            email_field :email
-
-            label :password
-            password_field :password
-
-            submit I18n.t('hanami_id.sessions.new.sign_in')
-          end
-        end
+        include Form
       end
     end
   end

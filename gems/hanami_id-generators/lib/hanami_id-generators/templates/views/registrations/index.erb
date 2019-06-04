@@ -3,11 +3,8 @@
 module <%= HanamiId.classify app %>
   module Views
     module Registrations
-      class Create
+      class Index
         include <%= HanamiId.classify app %>::View
-        include Form
-
-        template 'registrations/new'
       end
     end
   end

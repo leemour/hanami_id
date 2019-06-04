@@ -1,0 +1,19 @@
+module <%= HanamiId.classify app %>
+  module Views
+    module Sessions
+      module Form
+        def form
+          form_for :session, routes.sessions_path do
+            label :login
+            email_field :login
+
+            label :password
+            password_field :password
+
+            submit I18n.t('hanami_id.sessions.new.sign_in')
+          end
+        end
+      end
+    end
+  end
+end

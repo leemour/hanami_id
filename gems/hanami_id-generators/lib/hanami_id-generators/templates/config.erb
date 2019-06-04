@@ -5,6 +5,5 @@ HanamiId.configure do |config|
   config.model_name = '<%= model %>'
   config.login_column = '<%= login_column %>'
   config.password_column = '<%= password_column %>'
+  config.strategies = %i[password]
 end
-
-<%= HanamiId.app_name %>::Action.include HanamiId::Authentication

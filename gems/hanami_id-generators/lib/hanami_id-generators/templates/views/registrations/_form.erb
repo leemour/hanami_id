@@ -1,0 +1,22 @@
+module <%= HanamiId.classify app %>
+  module Views
+    module Registrations
+      module Form
+        def form
+          form_for :registration, routes.registrations_path do
+            label :login
+            email_field :login
+
+            label :password
+            password_field :password
+
+            label :password_confirmation
+            password_field :password_confirmation
+
+            submit I18n.t('hanami_id.registrations.new.sign_up')
+          end
+        end
+      end
+    end
+  end
+end

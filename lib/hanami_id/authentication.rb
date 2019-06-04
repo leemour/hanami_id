@@ -8,8 +8,8 @@ module HanamiId
 
     def self.included(action)
       action.class_eval do
-        # before :"authenticate_#{resource}!"
-        expose :"current_#{resource}"
+        # before :"authenticate_#{HanamiId.model_name}!"
+        expose :"current_#{HanamiId.model_name}"
       end
     end
 
@@ -31,7 +31,7 @@ module HanamiId
     define_method "authenticate_#{resource}" do
       instance_variable_set(
         "@current_#{resource}",
-        params.env["warden"].authenticate!(HanamiId.strategies)
+        params.env["warden"].authenticate!(*HanamiId.strategies)
       )
     end
 
