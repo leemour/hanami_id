@@ -43,15 +43,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "i18n", "~> 1.6"
   spec.add_dependency "warden", "~> 1.2"
 
-<<<<<<< HEAD
-  spec.add_development_dependency "bundler", "~> 2"
-  spec.add_development_dependency "bundler-audit", "~> 0.6"
-  spec.add_development_dependency "hanami", "~> 1.3"
-  spec.add_development_dependency "hanami-model", "~> 1.3"
-  spec.add_development_dependency "overcommit", "~> 0.48"
-  spec.add_development_dependency "pry-byebug", "~> 3.7"
-=======
   spec.add_development_dependency "bundler", ">= 1.17"
+  spec.add_development_dependency "bundler-audit", "~> 0.6"
   spec.add_development_dependency "hanami", "~> 1.3"
   spec.add_development_dependency "hanami-model", "~> 1.3"
   if is_java
@@ -59,7 +52,6 @@ Gem::Specification.new do |spec|
   else
     spec.add_development_dependency "pry-byebug", "~> 3.7"
   end
->>>>>>> Separate dependencies related to platform
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rubocop-md", "~> 0.3"
