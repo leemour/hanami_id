@@ -28,3 +28,6 @@ spec/tmp
 spec/dummy/apps/auth
 spec/dummy/db/*.sqlite
 .rspec_status
+
+# Ignore Gemfile.lock
+Gemfile.lock
