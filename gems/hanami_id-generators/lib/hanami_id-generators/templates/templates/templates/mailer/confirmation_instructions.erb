@@ -1,0 +1,4 @@
+<p><%= "#{t('common.hello')} #{@email}!" %></p>
+<p><%= t('user.confirm_account_notice') %></p>
+<p><%= link_to t('user.confirm_account'), 
+        user_confirmation_url(confirmation_token: @token)) %></p>
