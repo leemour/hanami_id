@@ -1,0 +1,7 @@
+<h1 class="font-bold"><%%= t('user.unlock_account') %></h1>
+<p><%%= t('user.resend_unlock_instructions') %></p>
+<%% form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f|%>
+  <%%= f.label :email %>
+  <%%= f.email_field :email, autofocus: true, class: 'form-control' %>
+  <%%= f.submit t('user.unlock_account'), class: "btn btn-primary block full-width m-b" %>
+<%% end %><%%= render "devise/shared/links" %>

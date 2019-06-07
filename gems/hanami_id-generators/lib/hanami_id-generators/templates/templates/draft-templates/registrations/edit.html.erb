@@ -1,0 +1,44 @@
+<h1 class="font-bold text-center"><%%= t('user.settings') %></h1>
+<hr />
+<%% form_for :avatar, 
+            url: avatar_user_path(current_user),
+            method: 'patch',
+            remote: true,
+            html: { multipart: true, class: 'user-avatar' } do |f|%>
+  <%%= f.file_field :avatar, id: 'upload-avatar-field' %>
+  <%%= f.submit class: 'submit-btn' %>
+<%% end %>
+
+<%% form_for(resource, as: resource_name, url: user_registration_path, html: { method: :put }) do |f| %>
+  <h2 class="user-name pull-right"><%= resource.full_name %></h2>
+  <span><%%= resource.t_enum(:role) %></span>
+  <%% if current_user.avatar.present? %>
+    <%= image_tag current_user.avatar_url(:small) %>
+  <%% else %>
+    <%= image_tag 'avatar.png' %>
+  <%% end %>
+  <hr />
+  <%%= f.label :email %>
+  <%%= f.email_field :email, class: 'form-control', autofocus: true %>
+  <%%# %>
+  <%% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <%%= t('devise.registrations.awainting_confirmation') %>
+    <%%= resource.unconfirmed_email %>
+
+  <%% end %>
+  <%%= f.label :password %>
+  <span><%= t('devise.registrations.leave_blank') %></span>
+  <%%= f.password_field :password, class: 'form-control', autocomplete: "off" %>
+  <%%= f.error_span(:password) %>
+  <%%= f.label :password_confirmation %>
+  <%%= f.password_field :password_confirmation, class: 'form-control', autocomplete: "off" %>
+  <%%= f.error_span(:password_confirmation) %>
+  <%%= f.label :current_password %>
+  <span>
+    <%%= t('devise.registrations.current_password_required') %>
+  </span>
+  <%%= f.password_field :current_password, class: 'form-control', autocomplete: "off" %>
+  <%%= f.error_span(:current_password) %>
+  <%%= f.submit t('user.update') %>
+  <%%= link_to t('common.back'), :back %>
+<%% end %>

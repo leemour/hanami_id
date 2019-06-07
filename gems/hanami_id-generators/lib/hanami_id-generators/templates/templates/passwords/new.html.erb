@@ -1,0 +1,9 @@
+<h1><%%= t('user.forgot_password') %></h1>
+<p><%%= t('user.enter_email_to_remember_password') %></p>
+<%% form_for resource, as: resource_name, url: password_path(resource_name), method: :post do |f|%>
+  <%%= f.label :email %>
+  <%%= f.email_field :email, autofocus: true, required: true, class: 'form-control' %>
+  <%%= f.submit t('user.password_instructions') %>
+  <%% end %><%%= render "hanami_id-generators/shared/links" %>
+</div>
+<p>© <%%= Time.now.year %> <%%= company_name %>. <%= t 'common.copyright' %>.</p>

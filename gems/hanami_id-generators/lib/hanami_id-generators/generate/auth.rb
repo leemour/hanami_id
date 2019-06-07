@@ -32,6 +32,25 @@ module HanamiId
         "registrations" => %w[
           index
           new
+        ],
+        "confirmations" => %w[
+          new
+        ],
+        "mailer" => %w[
+          confirmation_instructions
+          reset_password_instructions
+          unlock_instruction
+        ],
+        "passwords" => %w[
+          new
+          edit
+        ],
+        "shared" => %w[
+          _links
+        ],
+        "unlocks" => %w[
+          index
+          new
         ]
       }.freeze
       VIEWS = {

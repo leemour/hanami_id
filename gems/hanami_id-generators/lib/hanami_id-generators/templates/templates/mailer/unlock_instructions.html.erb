@@ -1,0 +1,4 @@
+<p><%%= t('common.hello')) %> <%%= @resource.full_name %>!</p>
+<p><%%= t('user.account_locked')) %></p>
+<p><%%= t('user.click_to_unlock')) %></p>
+<p><%%= link_to t('user.unlock_account'), unlock_url(@resource, unlock_token: @token) %></p>
