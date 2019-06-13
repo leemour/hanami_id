@@ -1,0 +1,21 @@
+        def initialize(operation: <%= HanamiId.app_name %>::Interactors::Passwords::Update.new)
+          @operation = operation
+        end
+
+        params do
+          required(:password).schema do
+            required(:password).filled(:str?, size?: (6..64))
+            required(:password_confirmation).filled(:str?, size?: (6..64)).confirmation
+          end
+        end
+
+        def call(params)
+          result = @operation.call(params)
+          if result.success?
+            flash[:success] = I18n.t('hanami_id.passwords.send_instructions')
+            redirect_to routes.root_path
+          else
+            flash[:error] = I18n.t('hanami_id.failure.invalid')
+            self.status = 422
+          end
+        end

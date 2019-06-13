@@ -23,6 +23,18 @@ module HanamiId
           # "show"   => "GET",
           # "update" => "PUT",
           # "delete" => "DELETE"
+        },
+        "passwords" => {
+          # "index"  => "GET",
+          "new"    => "GET",
+          "create" => "POST",
+          "edit"   => "GET",
+          # "show"   => "GET",
+          "update" => "PUT"
+          # "delete" => "DELETE"
+        },
+        "confirmations" => {
+          "new" => "GET"
         }
       }.freeze
       TEMPLATES = {
@@ -63,6 +75,17 @@ module HanamiId
           _form
           create
           new
+        ],
+        "confirmations" => %w[
+          _form
+          new
+        ],
+        "passwords"     => %w[
+          _edit_form
+          _new_form
+          create
+          new
+          update
         ]
       }.freeze
 

@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+module <%= HanamiId.classify app %>
+  module Views
+    module Confirmations
+      class New
+        include <%= HanamiId.classify app %>::View
+        include Form
+      end
+    end
+  end
+end

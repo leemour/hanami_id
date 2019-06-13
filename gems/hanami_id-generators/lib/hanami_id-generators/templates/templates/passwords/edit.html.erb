@@ -1,9 +1,3 @@
-<h1><%%= t('user.change_password') %></h1>
-<%% form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%%= f.hidden_field :reset_password_token %>
-  <%%= f.label :password, t("user.new_password") %>
-  <%%= f.password_field :password, autofocus: true, required: true, class: 'form-control', autocomplete: "off" %>
-  <%%= f.label :password_confirmation %>
-  <%%= f.password_field :password_confirmation, required: true, class: 'form-control', autocomplete: "off" %>
-  <%%= f.submit t('user.change_password')%>
-<%% end %><%%= render "hanami_id-generators/shared/links" %>
+<h1><%%= I18n.t('user.change_password') %></h1>
+
+<%%= form %>

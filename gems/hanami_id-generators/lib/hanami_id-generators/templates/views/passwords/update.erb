@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+module <%= HanamiId.classify app %>
+  module Views
+    module Passwords
+      class Update 
+        include <%= HanamiId.classify app %>::View
+        include EditForm
+
+        template 'passwords/edit'
+      end
+    end
+  end
+end

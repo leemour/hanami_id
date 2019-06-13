@@ -1,0 +1,23 @@
+# frozen_string_literal: true
+
+module <%= HanamiId.classify app %>
+  module Views
+    module Passwords
+      module EditForm
+        def form
+          form_for :change_password, routes.reset_passwords_path do
+            hidden_field :reset_password_token
+
+            label :password, I18n.t('user.new_password')
+            password_field :password, required: true
+
+            label :password_confirmation
+            password_field :password_confirmation, required: true
+
+            submit I18n.t('hanami_id.passwords.edit.change_your_password')
+          end
+        end
+      end
+    end
+  end
+end
