@@ -289,6 +289,9 @@ module HanamiId
       controller.prepare do
         include HanamiId::Authentication
       end
+      view.prepare do
+        include I18n
+      end
         INC
         destination = project.app_application(context)
 

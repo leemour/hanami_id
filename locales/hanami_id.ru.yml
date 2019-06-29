@@ -12,6 +12,8 @@ ru:
         many: "%{resource}: сохранение не удалось из-за %{count} ошибок"
         other: "%{resource}: сохранение не удалось из-за %{count} ошибки"
   hanami_id:
+    collections:
+      nothing_yet: There are no %{models} yet.
     confirmations:
       confirmed: "Ваша учётная запись подтверждена."
       send_instructions: "В течение нескольких минут Вы получите письмо с инструкциями по подтверждению Вашей учётной записи."

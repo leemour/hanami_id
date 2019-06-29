@@ -18,6 +18,20 @@ module HanamiId
 
   class AuthError < StandardError; end
 
+  # Defaults
+  @root = Pathname.new File.expand_path(File.dirname(__dir__))
+  @logger = ::Logger.new(STDOUT)
+  @model_name = "user"
+  @app_name = "Auth"
+  @failure_app = lambda do |env|
+    HanamiId.app::Controllers::Sessions::New.new(
+      login_failed_with: env["warden"].message
+    ).call(env)
+  end
+  @default_modules = %w[sessions registrations].freeze
+  @strategies = %i[password]
+  @modules = []
+
   class << self
     attr_accessor :logger
     attr_accessor :model_name
@@ -57,23 +71,7 @@ module HanamiId
     def app
       @app ||= Module.const_get(@app_name)
     end
-  end
 
-  # Defaults
-  @root = Pathname.new File.expand_path(File.dirname(__dir__))
-  @logger = ::Logger.new(STDOUT)
-  @model_name = "user"
-  @app_name = "Auth"
-  @failure_app = lambda do |env|
-    HanamiId.app::Controllers::Sessions::New.new(
-      login_failed_with: env["warden"].message
-    ).call(env)
-  end
-  @default_modules = %w[sessions registrations].freeze
-  @strategies = %i[password]
-  @modules = []
-
-  class << self
     MODULES.each do |app_module|
       define_method("#{app_module}?") do
         modules.include? app_module

@@ -1,14 +1,14 @@
 <h1>Registrations</h1>
 
-<%% if <%= Hanami::Utils::Inflector.pluralize model %>.any? %>
-  <div class="<%= Hanami::Utils::Inflector.pluralize model %>">
-    <%% <%= Hanami::Utils::Inflector.pluralize model %>.each do |<%= model %>| %>
+<%% if @collection.any? %>
+  <div class="<%= HanamiId.pluralize model %>">
+    <%% @collection.each do |resource| %>
       <div class="<%= model %>">
-        <h2><%%= <%= model %>.email %></h2>
-        <p><%%= <%= model %>.created_at %></p>
+        <h2><%%= resource.email %></h2>
+        <p><%%= resource.created_at %></p>
       </div>
     <%% end %>
   </div>
 <%% else %>
-  <p class="placeholder">There are no <%= Hanami::Utils::Inflector.pluralize model %> yet.</p>
+  <p class="placeholder"><%%= t("hanami_id.collections.nothing_yet", models: "<%= HanamiId.pluralize model %>") %></p>
 <%% end %>
