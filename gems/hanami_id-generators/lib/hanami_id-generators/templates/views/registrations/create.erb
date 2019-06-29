@@ -5,7 +5,7 @@ module <%= HanamiId.classify app %>
     module Registrations
       class Create
         include <%= HanamiId.classify app %>::View
-        include Form
+        include NewForm
 
         template 'registrations/new'
       end

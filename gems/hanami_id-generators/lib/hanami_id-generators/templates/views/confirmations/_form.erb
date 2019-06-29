@@ -5,9 +5,9 @@ module <%= HanamiId.classify app %>
     module Confirmations
       module Form
         def form
-          form_for :resource, routes.confirmations_path do
-            label :login
-            email_field :login
+          form_for :confirmations, routes.confirmations_path do
+            label :email
+            email_field :email
 
             submit I18n.t('hanami_id.confirmations.new.resend_confirmation_instructions')
           end

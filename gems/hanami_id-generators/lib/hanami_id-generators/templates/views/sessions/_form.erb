@@ -5,14 +5,14 @@ module <%= HanamiId.classify app %>
     module Sessions
       module Form
         def form
-          form_for :session, routes.sessions_path do
-            label :login
+          form_for :sessions, routes.sessions_path do
+            label :login, I18n.t("hanami_id.sessions.new.login")
             email_field :login
 
-            label :password
+            label :password, I18n.t("hanami_id.sessions.new.password")
             password_field :password
 
-            submit I18n.t('hanami_id.sessions.new.sign_in')
+            submit I18n.t('hanami_id.sessions.new.action')
           end
         end
       end

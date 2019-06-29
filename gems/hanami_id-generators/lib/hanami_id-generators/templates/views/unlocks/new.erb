@@ -2,14 +2,16 @@
 
 module <%= HanamiId.classify app %>
   module Views
-    module Passwords
-      module NewForm
+    module Unlocks
+      class New
+        include <%= HanamiId.classify app %>::View
+
         def form
-          form_for :passwords, routes.passwords_path do
+          form_for :unlocks, routes.unlocks_path do
             label :email
             email_field :email
 
-            submit I18n.t('hanami_id.passwords.new.send_me_reset_password_instructions')
+            submit I18n.t('hanami_id.unlocks.new.action')
           end
         end
       end

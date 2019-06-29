@@ -69,9 +69,7 @@ module HanamiId
     def app
       @app ||= Module.const_get(@app_name)
     end
-  end
 
-  class << self
     MODULES.each do |app_module|
       define_method("#{app_module}?") do
         modules.include? app_module

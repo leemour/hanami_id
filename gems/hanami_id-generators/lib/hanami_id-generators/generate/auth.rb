@@ -33,6 +33,10 @@ module HanamiId
         "confirmations" => {
           "new"    => "GET",
           "create" => "POST"
+        },
+        "unlocks"       => {
+          "new"    => "GET",
+          "create" => "POST"
         }
       }.freeze
       TEMPLATES = {
@@ -59,7 +63,6 @@ module HanamiId
           _links
         ],
         "unlocks"       => %w[
-          index
           new
         ]
       }.freeze
@@ -70,20 +73,29 @@ module HanamiId
           new
         ],
         "registrations" => %w[
-          _form
-          create
+          _new_form
+          index
           new
+          create
         ],
         "confirmations" => %w[
           _form
           new
+          create
         ],
         "passwords"     => %w[
           _edit_form
           _new_form
-          create
           new
+          edit
+          create
           update
+        ],
+        "shared"        => %w[
+          _links
+        ],
+        "unlocks"       => %w[
+          new
         ]
       }.freeze
 
