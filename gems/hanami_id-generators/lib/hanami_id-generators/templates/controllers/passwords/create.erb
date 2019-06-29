@@ -3,8 +3,8 @@
         end
 
         params do
-          required(:password).schema do
-            required(:login).filled(:str?, format?: URI::MailTo::EMAIL_REGEXP)
+          required(:passwords).schema do
+            required(:password).filled(:str?, size?: (6..64)).confirmation
           end
         end
 

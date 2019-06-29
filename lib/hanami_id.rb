@@ -13,7 +13,7 @@ require "hanami_id/password"
 
 module HanamiId
   MODES = %w[standalone project].freeze
-  MODULES = %w[sessions registrations confirmations passwords].freeze
+  MODULES = %w[sessions registrations confirmations passwords unlocks].freeze
   STRATEGIES = %i[password].freeze
 
   class AuthError < StandardError; end
@@ -28,7 +28,7 @@ module HanamiId
       login_failed_with: env["warden"].message
     ).call(env)
   end
-  @default_modules = %w[sessions registrations confirmations passwords].freeze
+  @default_modules = MODULES
   @strategies = %i[password]
 
   class << self
@@ -82,8 +82,8 @@ end
 
 I18n.tap do |i18n|
   i18n.load_path << Dir[HanamiId.root.join "locales", "*.yml"]
-  i18n.default_locale = :ru
-  i18n.available_locales = [:en, :ru]
-  i18n.backend.load_translations
-  # i18n.enforce_available_locales = false
+  i18n.default_locale = :en
+  # i18n.available_locales = [:en, :ru]
+  # i18n.backend.load_translations
+  i18n.enforce_available_locales = false
 end

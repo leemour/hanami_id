@@ -11,3 +11,9 @@ resources :passwords, only: [:new, :create, :update] do
   end
 end
 <% end -%>
+<% if modules.include? 'confirmations' -%>
+resources :confirmations, only: [:new, :create]
+<% end -%>
+<% if modules.include? 'unlocks' -%>
+resources :unlocks, only: [:new, :create]
+<% end -%>

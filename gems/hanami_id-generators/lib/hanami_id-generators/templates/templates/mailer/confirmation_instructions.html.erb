@@ -1,3 +1,9 @@
-<p><%%= "#{t('common.hello')} #{@email}!" %></p>
-<p><%%= t('user.confirm_account_notice') %></p>
-<p><%%= link_to t('user.confirm_account'), user_confirmation_url(confirmation_token: token)) %></p>
+<h1>
+  <%%= t("hanami_id.mailer.confirmation_instructions.greeting", recipient: resource.<%= HanamiId.login_column %>) %>
+</h1>
+<p>
+  <%%= t("hanami_id.mailer.confirmation_instructions.instruction") %>
+</p>
+<p>
+  <%%= link_to t("hanami_id.mailer.confirmation_instructions.action"), routes.user_confirmation_url(confirmation_token: token)) %>
+</p>
