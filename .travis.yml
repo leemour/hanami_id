@@ -10,18 +10,26 @@ rvm:
   - jruby-9.1.17.0
   - jruby-9.2.5.0
   - jruby-head
+  - rbx-head
   - ruby-head
   - truffleruby
 matrix:
   allow_failures:
     - rvm: jruby-head
     - rvm: ruby-head
+    - rvm: rbx-head
     - rvm: truffleruby
 before_install:
   - gem install bundler -v '1.17'
+  - bundle --version
+  - gem --version
 before_script:
   - mysql -e 'create database hanami_id_test;'
   - psql -c 'create database hanami_id_test;' -U postgres
+script:
+  - bundle exec rspec
+  - bundle info rubocop
+  - bundle exec rubocop
 addons:
   postgresql: "9.6"
 services:
