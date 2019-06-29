@@ -24,6 +24,7 @@ module HanamiId
     attr_accessor :app_name
     attr_accessor :failure_app
     attr_accessor :default_modules
+    attr_accessor :modules
     attr_accessor :strategies
     attr_accessor :root
     attr_accessor :login_column
@@ -70,6 +71,15 @@ module HanamiId
   end
   @default_modules = %w[sessions registrations].freeze
   @strategies = %i[password]
+  @modules = []
+
+  class << self
+    MODULES.each do |app_module|
+      define_method("#{app_module}?") do
+        modules.include? app_module
+      end
+    end
+  end
 end
 
 I18n.tap do |i18n|

@@ -6,4 +6,5 @@ HanamiId.configure do |config|
   config.login_column = '<%= login_column %>'
   config.password_column = '<%= password_column %>'
   config.strategies = %i[password]
+  config.modules = <%= modules.inspect %>
 end
