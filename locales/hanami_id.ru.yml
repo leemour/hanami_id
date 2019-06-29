@@ -14,6 +14,19 @@ ru:
   hanami_id:
     collections:
       nothing_yet: There are no %{models} yet.
+    modules:
+      registrations:
+        name:
+          one: Регистрация
+          few: Регистрации
+          many: Регистраций
+          other: Регистрации
+      sessions:
+        name:
+          one: Авторизация
+          few: Авторизации
+          many: Авторизаций
+          other: Авторизации
     confirmations:
       confirmed: "Ваша учётная запись подтверждена."
       send_instructions: "В течение нескольких минут Вы получите письмо с инструкциями по подтверждению Вашей учётной записи."
