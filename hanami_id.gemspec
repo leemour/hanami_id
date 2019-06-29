@@ -3,15 +3,15 @@
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "hanami_id/version"
-is_java = RUBY_PLATFORM == 'java'
 
+is_java = RUBY_PLATFORM == "java"
 
 Gem::Specification.new do |spec|
   spec.name         = "hanami_id"
   spec.version      = HanamiId::VERSION
   spec.authors      = ["Viacheslav Ptsarev"]
   spec.email        = ["leemour@gmail.com"]
-  spec.platform     = 'java' if is_java
+  spec.platform     = "java" if is_java
 
   spec.summary      = "Authentication for Hanami framework"
   spec.description  = <<~DESC
@@ -47,6 +47,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler-audit", "~> 0.6"
   spec.add_development_dependency "hanami", "~> 1.3"
   spec.add_development_dependency "hanami-model", "~> 1.3"
+  if RUBY_VERSION >= "2.4"
+    spec.add_development_dependency "overcommit", "~> 0.48"
+  end
   if is_java
     spec.add_development_dependency "pry-debugger-jruby", "~> 1.1"
   else
