@@ -23,6 +23,20 @@ module HanamiId
           # "show"   => "GET",
           # "update" => "PUT",
           # "delete" => "DELETE"
+        },
+        "passwords"     => {
+          "new"    => "GET",
+          "create" => "POST",
+          "edit"   => "GET",
+          "update" => "PUT"
+        },
+        "confirmations" => {
+          "new"    => "GET",
+          "create" => "POST"
+        },
+        "unlocks"       => {
+          "new"    => "GET",
+          "create" => "POST"
         }
       }.freeze
       TEMPLATES = {
@@ -31,6 +45,24 @@ module HanamiId
         ],
         "registrations" => %w[
           index
+          new
+        ],
+        "confirmations" => %w[
+          new
+        ],
+        "mailer"        => %w[
+          confirmation_instructions
+          reset_password_instructions
+          unlock_instruction
+        ],
+        "passwords"     => %w[
+          new
+          edit
+        ],
+        "shared"        => %w[
+          _links
+        ],
+        "unlocks"       => %w[
           new
         ]
       }.freeze
@@ -41,8 +73,28 @@ module HanamiId
           new
         ],
         "registrations" => %w[
-          _form
+          _new_form
+          index
+          new
           create
+        ],
+        "confirmations" => %w[
+          _form
+          new
+          create
+        ],
+        "passwords"     => %w[
+          _edit_form
+          _new_form
+          new
+          edit
+          create
+          update
+        ],
+        "shared"        => %w[
+          _links
+        ],
+        "unlocks"       => %w[
           new
         ]
       }.freeze
@@ -55,7 +107,7 @@ module HanamiId
       option :app, default: "auth", desc: "Application name"
       option :model, default: "user", desc: "User model name"
       option :modules, type: :array, values: HanamiId::MODULES,
-        default: HanamiId.default_modules, desc: "List of modules"
+        default: HanamiId::DEFAULT_MODULES, desc: "List of modules"
       option :id_type, default: "integer", desc: "User model name"
       option :login_column, default: "email", desc: "Login column in the DB"
       option :password_column, default: "password_hash",

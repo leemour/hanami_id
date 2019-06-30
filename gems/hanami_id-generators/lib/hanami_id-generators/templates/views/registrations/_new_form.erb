@@ -1,0 +1,24 @@
+# frozen_string_literal: true
+
+module <%= HanamiId.classify app %>
+  module Views
+    module Registrations
+      module NewForm
+        def form
+          form_for :registrations, routes.registrations_path do
+            label :login, I18n.t("hanami_id.registrations.new.login")
+            email_field :login
+
+            label :password, I18n.t("hanami_id.registrations.new.password")
+            password_field :password
+
+            label :password_confirmation, I18n.t("hanami_id.registrations.new.password_confirmation")
+            password_field :password_confirmation
+
+            submit I18n.t("hanami_id.registrations.new.action")
+          end
+        end
+      end
+    end
+  end
+end

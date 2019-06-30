@@ -4,3 +4,16 @@ resources :sessions, only: [:new, :create, :delete]
 <% if modules.include? 'registrations' -%>
 resources :registrations
 <% end -%>
+<% if modules.include? 'passwords' -%>
+resources :passwords, only: [:new, :create, :update] do
+  collection do
+    get '/reset', to: 'passwords#edit'
+  end
+end
+<% end -%>
+<% if modules.include? 'confirmations' -%>
+resources :confirmations, only: [:new, :create]
+<% end -%>
+<% if modules.include? 'unlocks' -%>
+resources :unlocks, only: [:new, :create]
+<% end -%>

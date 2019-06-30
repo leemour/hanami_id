@@ -2,10 +2,9 @@
 
 module <%= HanamiId.classify app %>
   module Views
-    module Registrations
-      class New
+    module Shared
+      module Links
         include <%= HanamiId.classify app %>::View
-        include NewForm
       end
     end
   end

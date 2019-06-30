@@ -12,7 +12,7 @@ module HanamiId
       option :app, default: "auth", desc: "Application name"
       option :model, default: "user", desc: "User model name"
       option :modules, type: :array, values: HanamiId::MODULES,
-        default: HanamiId.default_modules, desc: "List of modules"
+        default: HanamiId::DEFAULT_MODULES, desc: "List of modules"
       option :mode, values: HanamiId::MODES, default: "standalone",
         desc: "Level of itegration in project apps (callbacks, helpers etc.)"
 

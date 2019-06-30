@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+module <%= HanamiId.classify app %>
+  module Views
+    module Confirmations
+      module Form
+        def form
+          form_for :confirmations, routes.confirmations_path do
+            label :email
+            email_field :email
+
+            submit I18n.t('hanami_id.confirmations.new.resend_confirmation_instructions')
+          end
+        end
+      end
+    end
+  end
+end
