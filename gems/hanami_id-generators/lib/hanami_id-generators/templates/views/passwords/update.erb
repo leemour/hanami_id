@@ -2,10 +2,12 @@
 
 module <%= HanamiId.classify app %>
   module Views
-    module Registrations
-      class New
+    module Passwords
+      class Update 
         include <%= HanamiId.classify app %>::View
-        include NewForm
+        include EditForm
+
+        template 'passwords/edit'
       end
     end
   end

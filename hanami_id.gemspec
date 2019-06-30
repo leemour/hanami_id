@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.description  = <<~DESC
     Fully-fledged flexible authentication solution based on Bcrypt and Warden.
     Instead of magic intervention it acts isolated and generates a new
-    authentication app with all the code you need. I fully supports I18n.
+    authentication app with all the code you need. It fully supports I18n.
   DESC
   spec.homepage     = "https://github.com/leemour/hanami_id"
   spec.license      = "MIT"

@@ -14,6 +14,10 @@ ru:
   hanami_id:
     confirmations:
       confirmed: "Ваша учётная запись подтверждена."
+      new:
+        confirmation_instructions: Инструкции подтверждения
+        no_confirmation_instructions: "Не получили инструкции подтверждения?"
+        resend_confirmation_instructions: Отправить заново
       send_instructions: "В течение нескольких минут Вы получите письмо с инструкциями по подтверждению Вашей учётной записи."
       send_paranoid_instructions: "Если Ваш адрес email есть в нашей базе данных, то в течение нескольких минут Вы получите письмо с инструкциями по подтверждению вашей учётной записи."
     failure:
@@ -30,23 +34,23 @@ ru:
     mailer:
       confirmation_instructions:
         action: "Активировать"
-        greeting: "Привет %{recipient}!"
+        greeting: "Здравствуйте, %{recipient}!"
         instruction: "Вы можете активировать свою учетную запись, нажав ссылку снизу:"
         subject: "Инструкции по подтверждению учетной записи"
       password_change:
-        greeting: "Приветствуем %{recipient}!"
+        greeting: "Здравствуйте, %{recipient}!"
         message: "Мы пытаемся связаться с вами, что бы сообщить, что ваш пароль был изменен."
         subject: "Пароль изменен"
       reset_password_instructions:
         action: "Изменить пароль"
-        greeting: "Привет, %{recipient}!"
+        greeting: "Здравствуйте, %{recipient}!"
         instruction: "Вы (или кто-то еще) запросили изменение пароля. Для изменение пароля нажимите ссылку ниже:"
         instruction_2: "Если вы не запрашивали изменение пароля - проигнорируйте это сообщение"
         instruction_3: "Ваш пароль не изменится пока вы не нажмете на ссылку и не введете новый."
         subject: "Инструкции по восстановлению пароля"
       unlock_instructions:
         action: "Разблокировать учетную запись"
-        greeting: "Привет, %{recipient}!"
+        greeting: "Здравствуйте, %{recipient}!"
         instruction: "Нажмите ссылку для активации учетной записи:"
         message: "Ваша учетная запись была заблокирована в связи с превышением лимита неудачных попыток входа."
         subject: "Инструкции по разблокировке учетной записи"
@@ -59,7 +63,9 @@ ru:
         change_your_password: "Изменить пароль"
         confirm_new_password: "Повторите новый пароль"
         new_password: "Новый пароль"
+        new_password_confirmation: Подтверждение пароля
       new:
+        enter_email_to_remember_password: 'Введите свой email, для получения дальнейших интсрукций по восстановлению Вашего пароля.'
         forgot_your_password: "Забыли пароль?"
         send_me_reset_password_instructions: "Выслать новый пароль"
       no_token: "Эта страница доступна только при переходе с email для сброса пароля. Если Вы перешли по ссылке из письма, пожалуйста, убедитесь, что Вы использовали полный URL."
@@ -79,6 +85,10 @@ ru:
         update: "Обновить"
         we_need_your_current_password_to_confirm_your_changes: "введите текущий пароль для подтверждения изменений"
       new:
+        action: "Зарегистрироваться"
+        login: Логин
+        password: Пароль
+        password_confirmation: Подтверждение пароля
         sign_up: "Регистрация"
       signed_up: "Добро пожаловать! Вы успешно зарегистрировались."
       signed_up_but_inactive: "Вы успешно зарегистрировались. Тем не менее, Вы не можете войти, потому что Ваша учетная запись не активирована."
@@ -93,13 +103,18 @@ ru:
       already_signed_out: "Выход из системы уже выполнен."
       new:
         authorization: Авторизация
-        sign_in: "Войти"
+        login: Логин
+        password: Пароль
+        action: "Войти"
       sign_out: "Выйти"
       signed_in: "Вход в систему выполнен."
       signed_out: "Выход из системы выполнен."
     unlocks:
       new:
-        resend_unlock_instructions: "Выслать подтверждение заново"
+        action: "Выслать инструкции"
+        enter_email_to_receive_unlock_instructions: 'Введите свой email, для получения дальнейших интсрукций по разблокировке.'
+        no_unlock_instructions: Не получили инструкции разблокировки?
+        unlock_instructions: Инструкции по разблокировке
       send_instructions: "В течение нескольких минут Вы получите письмо с инструкциями по разблокировке Вашей учётной записи."
       send_paranoid_instructions: "Если Ваша учётная запись существует, то в течение нескольких минут Вы получите письмо с инструкциями по её разблокировке."
       unlocked: "Ваша учётная запись разблокирована. Теперь Вы вошли в систему."

@@ -1,0 +1,12 @@
+<h1>
+  <%%= t("hanami_id.mailer.reset_password_instructions.greeting", recipient: resource.<%= HanamiId.login_column %>) %>
+</h1>
+<p>
+  <%%= t("hanami_id.mailer.reset_password_instructions.message")) %>
+</p>
+<p>
+  <%%= t("hanami_id.mailer.reset_password_instructions.instruction")) %>
+</p>
+<p>
+  <%%= link_to t("hanami_id.mailer.reset_password_instructions.action"), routes.unlock_url(resource, unlock_token: token) %>
+</p>

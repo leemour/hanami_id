@@ -23,6 +23,20 @@ module HanamiId
           # "show"   => "GET",
           # "update" => "PUT",
           # "delete" => "DELETE"
+        },
+        "passwords"     => {
+          "new"    => "GET",
+          "create" => "POST",
+          "edit"   => "GET",
+          "update" => "PUT"
+        },
+        "confirmations" => {
+          "new"    => "GET",
+          "create" => "POST"
+        },
+        "unlocks"       => {
+          "new"    => "GET",
+          "create" => "POST"
         }
       }.freeze
       TEMPLATES = {
@@ -31,6 +45,24 @@ module HanamiId
         ],
         "registrations" => %w[
           index
+          new
+        ],
+        "confirmations" => %w[
+          new
+        ],
+        "mailer"        => %w[
+          confirmation_instructions
+          reset_password_instructions
+          unlock_instruction
+        ],
+        "passwords"     => %w[
+          new
+          edit
+        ],
+        "shared"        => %w[
+          _links
+        ],
+        "unlocks"       => %w[
           new
         ]
       }.freeze
@@ -41,8 +73,28 @@ module HanamiId
           new
         ],
         "registrations" => %w[
-          _form
+          _new_form
+          index
+          new
           create
+        ],
+        "confirmations" => %w[
+          _form
+          new
+          create
+        ],
+        "passwords"     => %w[
+          _edit_form
+          _new_form
+          new
+          edit
+          create
+          update
+        ],
+        "shared"        => %w[
+          _links
+        ],
+        "unlocks"       => %w[
           new
         ]
       }.freeze

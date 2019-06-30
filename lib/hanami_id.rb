@@ -13,10 +13,23 @@ require "hanami_id/password"
 
 module HanamiId
   MODES = %w[standalone project].freeze
-  MODULES = %w[sessions registrations].freeze
+  MODULES = %w[sessions registrations confirmations passwords unlocks].freeze
   STRATEGIES = %i[password].freeze
 
   class AuthError < StandardError; end
+
+  # Defaults
+  @root = Pathname.new File.expand_path(File.dirname(__dir__))
+  @logger = ::Logger.new(STDOUT)
+  @model_name = "user"
+  @app_name = "Auth"
+  @failure_app = lambda do |env|
+    HanamiId.app::Controllers::Sessions::New.new(
+      login_failed_with: env["warden"].message
+    ).call(env)
+  end
+  @default_modules = MODULES
+  @strategies = %i[password]
 
   class << self
     attr_accessor :logger
@@ -56,24 +69,19 @@ module HanamiId
     def app
       @app ||= Module.const_get(@app_name)
     end
-  end
 
-  # Defaults
-  @root = Pathname.new File.expand_path(File.dirname(__dir__))
-  @logger = ::Logger.new(STDOUT)
-  @model_name = "user"
-  @app_name = "Auth"
-  @failure_app = lambda do |env|
-    HanamiId.app::Controllers::Sessions::New.new(
-      login_failed_with: env["warden"].message
-    ).call(env)
+    MODULES.each do |app_module|
+      define_method("#{app_module}?") do
+        modules.include? app_module
+      end
+    end
   end
-  @default_modules = %w[sessions registrations].freeze
-  @strategies = %i[password]
 end
 
 I18n.tap do |i18n|
   i18n.load_path << Dir[HanamiId.root.join "locales", "*.yml"]
   i18n.default_locale = :en
-  # i18n.enforce_available_locales = false
+  # i18n.available_locales = [:en, :ru]
+  # i18n.backend.load_translations
+  i18n.enforce_available_locales = false
 end
