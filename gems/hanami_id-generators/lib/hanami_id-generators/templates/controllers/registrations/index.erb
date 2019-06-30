@@ -1,3 +1,5 @@
+        before :authenticate_user!
+
         expose :collection
 
         def initialize(repository: <%= HanamiId.classify repository %>.new)

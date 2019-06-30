@@ -46,7 +46,7 @@ module HanamiId
       end
 
       def remove_default_migration
-        migration_name = Hanami::Utils::Inflector.pluralize HanamiId.model_name
+        migration_name = HanamiId.pluralize HanamiId.model_name
         destination = Dir.glob(
           project.root.join("db", "migrations", "*create_#{migration_name}.rb")
         ).first
@@ -54,6 +54,15 @@ module HanamiId
 
         files.delete(destination)
         say(:remove, destination)
+      end
+
+      def remove_env_vars(app)
+        [
+          project.root.join(".env.development"),
+          project.root.join(".env.test")
+        ].each do |path|
+          files.remove_line path, /#{app.upcase}_SESSIONS_SECRET/
+        end
       end
 
       def remove_config

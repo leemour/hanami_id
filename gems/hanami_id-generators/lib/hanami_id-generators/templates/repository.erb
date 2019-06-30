@@ -2,7 +2,7 @@
 
 class <%= HanamiId.classify repository %> < Hanami::Repository
   def find_by_<%= login_column %>(<%= login_column %>)
-    <%= Hanami::Utils::Inflector.pluralize model %>.where(<%= login_column %>: <%= login_column %>).first
+    <%= HanamiId.pluralize model %>.where(<%= login_column %>: <%= login_column %>).first
   end
 
   def authenticate(login, password)

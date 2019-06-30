@@ -17,6 +17,7 @@ module HanamiId
 end
 
 require "hanami_id-generators/version"
+require "hanami_id-generators/app_generators"
 require "hanami_id-generators/destroy/auth"
 require "hanami_id-generators/generate/auth"
 

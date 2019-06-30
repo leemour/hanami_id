@@ -21,7 +21,7 @@ and acts completely isolated.
 
 ## Installation
 
-Add this lines to your application's Gemfile:
+Add these lines to your application's Gemfile:
 
 ```ruby
 gem "hanami_id"
@@ -77,15 +77,16 @@ module Web
 end
 ```
 
-For usage in single controller action add Warden Rack middleware to that action:
+Use `authenticate_<model>!` method to fail if authentications fails and `authenticate_<model>` (without bang) to continue if authentication fails.
+
+For example:
 ```ruby
 # apps/web/controllers/dashboard/show.rb
 module Web
   module Controllers
     module Dashboard
       class Show
-        include Web::Action
-        include HanamiId::Warden::ActionHelper
+        before :authenticate_user!
 
         def call(params)
           # ...

@@ -4,9 +4,9 @@ Hanami::Model.migration do
     execute 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp"'
 
     <%- end -%>
-    create_table :<%= Hanami::Utils::Inflector.pluralize model %> do
+    create_table :<%= HanamiId.pluralize model %> do
       <%- if id_type == 'uuid' -%>
-      primary_key :id, <%= id_type %>, null: false,
+      primary_key :id, :uuid, null: false,
         default: Hanami::Model::Sql.function(:uuid_generate_v4)
       <%- else -%>
       primary_key :id, null: false
@@ -21,7 +21,7 @@ Hanami::Model.migration do
   end
 
   down do
-    drop_table :<%= Hanami::Utils::Inflector.pluralize model %>
+    drop_table :<%= HanamiId.pluralize model %>
     <%- if id_type == 'uuid' -%>
     execute 'DROP EXTENSION IF EXISTS "uuid-ossp"'
     <%- end -%>
