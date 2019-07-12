@@ -3,9 +3,11 @@
 module <%= HanamiId.classify app %>
   module Views
     module Unlocks
-      class New
+      class Create
         include <%= HanamiId.classify app %>::View
         include Form
+
+        template "unlocks/new"
       end
     end
   end

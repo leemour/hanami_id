@@ -1,0 +1,28 @@
+# frozen_string_literal: true
+
+require 'hanami/interactor'
+
+module <%= HanamiId.app_name %>
+  module Interactors
+    module Registrations
+      class Update
+        include Hanami::Interactor
+        expose :params
+
+        def initialize(repository: <%= HanamiId.classify repository %>.new)
+          @repository = repository
+        end
+
+        def call(current_<%= model %>, params)
+          @repository.update(current_<%= model %>.id, params[:passwords])
+        end
+
+        private
+
+        def valid?(params)
+          params.valid?
+        end
+      end
+    end
+  end
+end

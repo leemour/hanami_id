@@ -1,0 +1,24 @@
+        before :authenticate_<%= model %>!
+
+        def initialize(operation: <%= HanamiId.app_name %>::Interactors::Registrations::Update.new)
+          @operation = operation
+        end
+
+        params do
+          required(:registration).schema do
+            required(:login).filled(:str?, format?: URI::MailTo::EMAIL_REGEXP)
+            required(:password).filled(:str?, size?: (6..64))
+            optional(:new_password).filled(:str?, size?: (6..64)).confirmation
+          end
+        end
+
+        def call(params)
+          result = @operation.call(current_<%= model %>, params)
+          if result.success?
+            flash[:success] = I18n.t('hanami_id.registrations.updated')
+            redirect_to routes.registration_path(current_<%= model %>)
+          else
+            flash[:error] = I18n.t('hanami_id.failure.invalid')
+            self.status = 422
+          end
+        end

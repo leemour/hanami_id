@@ -1,3 +1,4 @@
+get "/", as: "root"
 <% if modules.include? 'sessions' -%>
 resources :sessions, only: [:new, :create, :delete]
 <% end -%>

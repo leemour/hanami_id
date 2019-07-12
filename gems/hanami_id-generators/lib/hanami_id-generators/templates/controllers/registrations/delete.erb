@@ -1,11 +1,11 @@
         before :authenticate_<%= model %>!
 
-        expose :collection
-
         def initialize(repository: <%= HanamiId.classify repository %>.new)
           @repository = repository
         end
 
         def call(params)
-          @collection = @repository.all
+          resource = @repository.delete(params[:id])
+          flash[:success] = I18n.t('hanami_id.registrations.destroyed')
+          redirect_to routes.root_path
         end

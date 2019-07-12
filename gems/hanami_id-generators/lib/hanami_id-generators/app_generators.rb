@@ -39,15 +39,21 @@ module HanamiId
       end
 
       def generate_default_interactors
-        source = auth_templates.join(
-          "interactors", "registrations", "create.erb"
-        ).to_s
-        destination = project.root.join(
-          "lib", context.app, "interactors", "registrations", "create.rb"
-        )
+        self.class::INTERACTORS.each do |controller_name, actions|
+          next if unused_modules.include? controller_name
 
-        generate_file(source, destination, context)
-        say(:create, destination)
+          actions.each do |action|
+            source = auth_templates.join(
+              "interactors", controller_name, "#{action}.erb"
+            ).to_s
+            destination = project.root.join(
+              "lib", context.app, "interactors", controller_name, "#{action}.rb"
+            )
+
+            generate_file(source, destination, context)
+            say(:create, destination)
+          end
+        end
       end
 
       def generate_default_routes
@@ -182,9 +188,10 @@ module HanamiId
         content = <<-INC
       controller.prepare do
         include HanamiId::Authentication
+        include HanamiId::I18nSupport
       end
       view.prepare do
-        include I18n
+        include HanamiId::I18nSupport
       end
         INC
         destination = project.app_application(context)

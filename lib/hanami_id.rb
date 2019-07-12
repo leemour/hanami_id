@@ -10,6 +10,7 @@ require "hanami_id/warden/strategy"
 require "hanami_id/warden/app_helper"
 require "hanami_id/warden/session"
 require "hanami_id/password"
+require "hanami_id/i18n_support"
 
 module HanamiId
   MODES = %w[standalone project].freeze

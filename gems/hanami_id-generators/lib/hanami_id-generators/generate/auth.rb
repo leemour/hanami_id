@@ -19,11 +19,11 @@ module HanamiId
         "registrations" => {
           "index"  => "GET",
           "new"    => "GET",
-          "create" => "POST"
-          # "edit"   => "GET",
-          # "show"   => "GET",
-          # "update" => "PUT",
-          # "delete" => "DELETE"
+          "create" => "POST",
+          "edit"   => "GET",
+          "show"   => "GET",
+          "update" => "PUT",
+          "delete" => "DELETE"
         },
         "passwords"     => {
           "new"    => "GET",
@@ -40,13 +40,24 @@ module HanamiId
           "create" => "POST"
         }
       }.freeze
+      INTERACTORS = {
+        "passwords"     => %w[
+          update
+        ],
+        "registrations" => %w[
+          create
+          update
+        ]
+      }.freeze
       TEMPLATES = {
         "sessions"      => %w[
           new
         ],
         "registrations" => %w[
           index
+          show
           new
+          edit
         ],
         "confirmations" => %w[
           new
@@ -75,9 +86,13 @@ module HanamiId
         ],
         "registrations" => %w[
           _new_form
+          _edit_form
           index
+          show
           new
+          edit
           create
+          update
         ],
         "confirmations" => %w[
           _form
@@ -96,7 +111,9 @@ module HanamiId
           _links
         ],
         "unlocks"       => %w[
+          _form
           new
+          create
         ]
       }.freeze
 

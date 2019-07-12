@@ -12,6 +12,11 @@ ru:
         many: "%{resource}: сохранение не удалось из-за %{count} ошибок"
         other: "%{resource}: сохранение не удалось из-за %{count} ошибки"
   hanami_id:
+    actions:
+      create: Создать
+      edit: Изменить
+      update: Сохранить
+      destroy: Удалить
     collections:
       nothing_yet: There are no %{models} yet.
     modules:
@@ -91,19 +96,21 @@ ru:
     registrations:
       destroyed: "До свидания! Ваша учётная запись удалена. Надеемся снова увидеть Вас."
       edit:
+        action: "Сохранить"
         are_you_sure: "Вы уверены?"
         cancel_my_account: "Удалить учетную запись"
         currently_waiting_confirmation_for_email: "Ожидается подтверждение адреса E-mail: %{email}"
         leave_blank_if_you_don_t_want_to_change_it: "оставьте поле пустым, если не хотите его менять"
+        login: Логин
         title: "Редактировать %{resource}"
         unhappy: "Разочарованы"
-        update: "Обновить"
         we_need_your_current_password_to_confirm_your_changes: "введите текущий пароль для подтверждения изменений"
       new:
         action: "Зарегистрироваться"
+        current_password: Текущий пароль
         login: Логин
-        password: Пароль
-        password_confirmation: Подтверждение пароля
+        new_password: Новый пароль
+        password_confirmation: Подтверждение нового пароля
         sign_up: "Регистрация"
       signed_up: "Добро пожаловать! Вы успешно зарегистрировались."
       signed_up_but_inactive: "Вы успешно зарегистрировались. Тем не менее, Вы не можете войти, потому что Ваша учетная запись не активирована."

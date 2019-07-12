@@ -1,8 +1,8 @@
 <h1><%%= t("hanami_id.registrations.name", count: 10) %></h1>
 
-<%% if @collection.any? %>
+<%% if collection.any? %>
   <div class="<%= HanamiId.pluralize model %>">
-    <%% @collection.each do |resource| %>
+    <%% collection.each do |resource| %>
       <div class="<%= model %>">
         <h2><%%= resource.email %></h2>
         <p><%%= resource.created_at %></p>

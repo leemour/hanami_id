@@ -1,0 +1,17 @@
+<h1><%%= resource.email %></h1>
+
+<div class="<%= model %>">
+  <p><%%= resource.created_at %></p>
+</div>
+
+<ul class="actions">
+  <li>
+    <%%= link_to t('hanami_id.actions.create'), routes.registrations_path, method: "POST" %>
+  </li>
+  <li>
+    <%%= link_to t('hanami_id.actions.update'), routes.edit_registration_path(resource) %>
+  </li>
+  <li>
+    <%%= link_to t('hanami_id.actions.destroy'), routes.registration_path(resouce), method: "DELETE" %>
+  </li>
+</ul>

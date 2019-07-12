@@ -5,32 +5,25 @@ require 'hanami/interactor'
 module <%= HanamiId.app_name %>
   module Interactors
     module Registrations
-      class Create
+      class Update
         include Hanami::Interactor
         expose :params
-        expose :<%= model %>
 
         def initialize(repository: <%= HanamiId.classify repository %>.new)
           @repository = repository
         end
 
-        def call(params)
+        def call(current_<%= model %>, params)
           @params = params[:registrations]
-          <%= model %> = <%= HanamiId.classify model %>.new(
-            <%= login_column %>: @params[:login],
-            <%= password_column %>: encrypt(@params[:password])
-          )
-          @<%= model %> = @repository.create(<%= model %>)
+          update_attrs = {<%= login_column %>: params[:login]}
+          update_attrs.merge(password: params[:new_password]) if params[:new_password]
+          @<%= model %> = @repository.update(current_<%= model %>.id, update_attrs)
         end
 
         private
 
         def valid?(params)
           params.valid?
-        end
-
-        def encrypt(password)
-          HanamiId::Password.encrypt(password)
         end
       end
     end
