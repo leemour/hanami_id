@@ -4,18 +4,22 @@ module <%= HanamiId.classify app %>
   module Views
     module Registrations
       module NewForm
+        def title
+          t("hanami_id.registrations.new.sign_up")
+        end
+
         def form
           form_for :registrations, routes.registrations_path do
-            label :login, I18n.t("hanami_id.registrations.new.login")
+            label t("hanami_id.registrations.new.login"), for: :login
             email_field :login
 
-            label :password, I18n.t("hanami_id.registrations.new.password")
+            label t("hanami_id.registrations.new.password"), for: :password
             password_field :password
 
-            label :password_confirmation, I18n.t("hanami_id.registrations.new.password_confirmation")
+            label t("hanami_id.registrations.new.password_confirmation"), for: :password_confirmation
             password_field :password_confirmation
 
-            submit I18n.t("hanami_id.registrations.new.action")
+            submit t("hanami_id.registrations.new.action")
           end
         end
       end

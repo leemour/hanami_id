@@ -193,6 +193,7 @@ module HanamiId
       view.prepare do
         include HanamiId::I18nSupport
       end
+      I18n.locale = :#{context.locale}
         INC
         destination = project.app_application(context)
 
@@ -205,6 +206,14 @@ module HanamiId
         destination = project.app_application(context)
 
         files.inject_line_after_last(destination, /Application </, content)
+        say(:insert, destination)
+      end
+
+      def modify_app_layout
+        content = "    <title><%= local :title %><title>"
+        destination = project.app_template(context)
+
+        files.replace_first_line(destination, /<title>/, content)
         say(:insert, destination)
       end
 

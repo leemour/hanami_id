@@ -4,21 +4,25 @@ module <%= HanamiId.classify app %>
   module Views
     module Registrations
       module EditForm
+        def title
+          t("hanami_id.registrations.edit.title", resource: t("hanami_id.modules.registrations"))
+        end
+
         def form
           form_for :registrations, routes.registrations_path do
-            label :login, I18n.t("hanami_id.registrations.edit.login")
+            label t("hanami_id.registrations.edit.login"), for: :login
             email_field :login
 
-            label :new_password, I18n.t("hanami_id.registrations.edit.new_password")
+            label t("hanami_id.registrations.edit.new_password"), for: :new_password
             password_field :new_password
 
-            label :new_password_confirmation, I18n.t("hanami_id.registrations.edit.new_password_confirmation")
+            label t("hanami_id.registrations.edit.new_password_confirmation"), for: :new_password_confirmation
             password_field :new_password_confirmation
 
-            label :current_password, I18n.t("hanami_id.registrations.edit.current_password")
+            label t("hanami_id.registrations.edit.current_password"), for: :current_password
             password_field :current_password
 
-            submit I18n.t("hanami_id.registrations.edit.action")
+            submit t("hanami_id.registrations.edit.action")
           end
         end
       end

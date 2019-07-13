@@ -4,17 +4,21 @@ module <%= HanamiId.classify app %>
   module Views
     module Passwords
       module EditForm
+        def title
+          t("hanami_id.passwords.edit.change_your_password")
+        end
+
         def form
           form_for :passwords, routes.reset_passwords_path do
             hidden_field :reset_password_token
 
-            label :password, I18n.t("hanami_id.passwords.edit.new_password")
+            label t("hanami_id.passwords.edit.new_password"), for: :password
             password_field :password, required: true
 
-            label :password_confirmation, I18n.t("hanami_id.passwords.edit.new_password_confirmation")
+            label t("hanami_id.passwords.edit.new_password_confirmation"), for: :password_confirmation
             password_field :password_confirmation, required: true
 
-            submit I18n.t('hanami_id.passwords.edit.change_your_password')
+            submit t('hanami_id.passwords.edit.change_your_password')
           end
         end
       end

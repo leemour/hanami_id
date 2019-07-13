@@ -5,6 +5,10 @@ module <%= HanamiId.classify app %>
     module Registrations
       class Show
         include <%= HanamiId.classify app %>::View
+
+        def title
+          resource.email
+        end
       end
     end
   end

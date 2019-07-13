@@ -102,6 +102,8 @@ ru:
         currently_waiting_confirmation_for_email: "Ожидается подтверждение адреса E-mail: %{email}"
         leave_blank_if_you_don_t_want_to_change_it: "оставьте поле пустым, если не хотите его менять"
         login: Логин
+        new_password: Новый пароль
+        password_confirmation: Подтверждение нового пароля
         title: "Редактировать %{resource}"
         unhappy: "Разочарованы"
         we_need_your_current_password_to_confirm_your_changes: "введите текущий пароль для подтверждения изменений"
@@ -109,8 +111,8 @@ ru:
         action: "Зарегистрироваться"
         current_password: Текущий пароль
         login: Логин
-        new_password: Новый пароль
-        password_confirmation: Подтверждение нового пароля
+        password: Пароль
+        password_confirmation: Подтверждение пароля
         sign_up: "Регистрация"
       signed_up: "Добро пожаловать! Вы успешно зарегистрировались."
       signed_up_but_inactive: "Вы успешно зарегистрировались. Тем не менее, Вы не можете войти, потому что Ваша учетная запись не активирована."

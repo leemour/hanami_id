@@ -4,12 +4,16 @@ module <%= HanamiId.classify app %>
   module Views
     module Unlocks
       module Form
+        def title
+          t("hanami_id.unlocks.new.unlock_instructions")
+        end
+
         def form
           form_for :unlocks, routes.unlocks_path do
             label :email
             email_field :email
 
-            submit I18n.t('hanami_id.unlocks.new.action')
+            submit t('hanami_id.unlocks.new.action')
           end
         end
       end

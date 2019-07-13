@@ -133,6 +133,7 @@ module HanamiId
         desc: "Password column in the DB"
       option :mode, values: HanamiId::MODES, default: "standalone",
         desc: "Level of itegration in project apps (callbacks, helpers etc.)"
+      option :locale, default: "en", desc: "I18n locale"
 
       example [
         "--app auth --model account --modules registrations"
@@ -145,7 +146,7 @@ module HanamiId
 
       def call(
         app:, model:, modules:, login_column:, password_column:, id_type:,
-        mode:, **options
+        mode:, locale:, **options
       )
         HanamiId.logger.info "Generating #{app} app!"
         HanamiId.model_name = model
@@ -160,7 +161,9 @@ module HanamiId
           id_type: id_type,
           login_column: login_column,
           password_column: password_column,
-          options: options.merge(project: app)
+          options: options.merge(project: app),
+          locale: locale,
+          template: "erb"
         )
 
         run_generators
@@ -168,6 +171,7 @@ module HanamiId
 
       private
 
+      # rubocop:disable Metrics/AbcSize
       def run_generators
         generate_default_app
         generate_default_entity
@@ -182,8 +186,10 @@ module HanamiId
         generate_config if context.mode == "project"
         inject_authentication_helpers
         inject_warden_helper
+        modify_app_layout
         configure_app
       end
+      # rubocop:enable Metrics/AbcSize
     end
   end
 end

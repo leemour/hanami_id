@@ -4,12 +4,16 @@ module <%= HanamiId.classify app %>
   module Views
     module Confirmations
       module Form
+        def title
+          t("hanami_id.confirmations.new.confirmation_instructions")
+        end
+
         def form
           form_for :confirmations, routes.confirmations_path do
             label :email
             email_field :email
 
-            submit I18n.t('hanami_id.confirmations.new.resend_confirmation_instructions')
+            submit t('hanami_id.confirmations.new.resend_confirmation_instructions')
           end
         end
       end

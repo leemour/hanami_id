@@ -5,6 +5,10 @@ module <%= HanamiId.classify app %>
     module Registrations
       class Index
         include <%= HanamiId.classify app %>::View
+
+        def title
+          t("hanami_id.registrations.name", count: 10)
+        end
       end
     end
   end

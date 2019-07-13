@@ -15,10 +15,10 @@
         def call(params)
           result = @operation.call(current_<%= model %>, params)
           if result.success?
-            flash[:success] = I18n.t('hanami_id.registrations.updated')
+            flash[:success] = t('hanami_id.registrations.updated')
             redirect_to routes.registration_path(current_<%= model %>)
           else
-            flash[:error] = I18n.t('hanami_id.failure.invalid')
+            flash[:error] = t('hanami_id.failure.invalid')
             self.status = 422
           end
         end

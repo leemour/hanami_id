@@ -4,12 +4,16 @@ module <%= HanamiId.classify app %>
   module Views
     module Passwords
       module NewForm
+        def title
+          t("hanami_id.passwords.new.forgot_your_password")
+        end
+
         def form
           form_for :passwords, routes.passwords_path do
             label :email
             email_field :email
 
-            submit I18n.t('hanami_id.passwords.new.send_me_reset_password_instructions')
+            submit t('hanami_id.passwords.new.send_me_reset_password_instructions')
           end
         end
       end
