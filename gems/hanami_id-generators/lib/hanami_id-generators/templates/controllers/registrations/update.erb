@@ -5,7 +5,7 @@
         end
 
         params do
-          required(:registration).schema do
+          required(:registrations).schema do
             required(:login).filled(:str?, format?: URI::MailTo::EMAIL_REGEXP)
             required(:password).filled(:str?, size?: (6..64))
             optional(:new_password).filled(:str?, size?: (6..64)).confirmation

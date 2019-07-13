@@ -1,8 +1,19 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ModuleLength
 module HanamiId
   module Generators
     module AppGenerators
+      LOGGER_FILTER = <<-LOG.rstrip
+    logger level: :debug, filter: %w[
+      password
+      password_confirmation
+      new_password
+      new_password_confirmation
+      current_password
+    ]
+      LOG
+
       private
 
       def generate_default_app
@@ -166,9 +177,14 @@ module HanamiId
         say(:create, destination)
       end
 
-      def generate_config
+      def update_config
         # TODO: add project-wide integration
-        raise "Not implemented"
+        destination = project.environment
+
+        files.replace_first_line(
+          destination, /logger level: :debug/, LOGGER_FILTER
+        )
+        say(:insert, destination)
       end
 
       def inject_authentication_helpers
@@ -210,10 +226,19 @@ module HanamiId
       end
 
       def modify_app_layout
-        content = "    <title><%= local :title %><title>"
         destination = project.app_template(context)
 
+        content = "    <title><%= local :title %></title>"
         files.replace_first_line(destination, /<title>/, content)
+
+        content = <<-HEAD
+    <header>
+      <% if #{context.model}_signed_in? %>
+        <%= link_to t('hanami_id.sessions.sign_out'), routes.session_path(current_user.id), method: "DELETE" %>
+      <% end %>
+    </header>"
+        HEAD
+        files.inject_line_after(destination, /<body>/, content)
         say(:insert, destination)
       end
 
@@ -241,3 +266,4 @@ module HanamiId
     end
   end
 end
+# rubocop:enable Metrics/ModuleLength

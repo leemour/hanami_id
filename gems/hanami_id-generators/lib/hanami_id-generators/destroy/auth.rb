@@ -29,9 +29,9 @@ module HanamiId
 
         remove_lib_app_directory(app)
         remove_default_migration
+        update_config
         return unless mode == "project"
 
-        # remove_config
         remove_initializer
       end
 
@@ -65,9 +65,18 @@ module HanamiId
         end
       end
 
-      def remove_config
+      def update_config
         # TODO: remove project-wide integration
-        raise "Not implemented"
+        destination = project.environment
+        content = "    logger level: :debug"
+
+        HanamiId::Generators::AppGenerators::LOGGER_FILTER.each_line do |line|
+          files.remove_line(destination, line)
+        end
+        files.inject_line_after(
+          destination, %r{guides/projects/logging}, content
+        )
+        say(:insert, destination)
       end
 
       def remove_initializer

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 HanamiId.configure do |config|
-  config.app_name = '<%= HanamiId.classify app %>'
-  config.model_name = '<%= model %>'
-  config.login_column = '<%= login_column %>'
-  config.password_column = '<%= password_column %>'
+  config.app_name = "<%= HanamiId.classify app %>"
+  config.model_name = "<%= model %>"
+  config.login_column = "<%= login_column %>"
+  config.password_column = "<%= password_column %>"
   config.strategies = %i[password]
   config.modules = <%= modules.inspect %>
 end

@@ -1,3 +1,5 @@
+        before :authenticate_<%= model %>
+
         expose :failure_message
 
         def initialize(login_failed_with: nil)
@@ -5,5 +7,7 @@
         end
 
         def call(_params)
+          redirect_to routes.root_path if <%= model %>_signed_in?
+
           self.status = 403 if @failure_message
         end

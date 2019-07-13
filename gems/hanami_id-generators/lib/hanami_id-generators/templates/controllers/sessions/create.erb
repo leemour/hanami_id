@@ -1,3 +1,5 @@
+        before :authenticate_<%= model %>
+
         params do
           required(:session).schema do
             required(:login) { filled? & str? }
@@ -6,6 +8,8 @@
         end
 
         def call(params)
+          redirect_to routes.root_path if <%= model %>_signed_in?
+
           authenticate_<%= model %>!
           flash[:success] = t('hanami_id.sessions.signed_in')
           redirect_to routes.root_path

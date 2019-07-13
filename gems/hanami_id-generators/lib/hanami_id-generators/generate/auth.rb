@@ -12,18 +12,18 @@ module HanamiId
 
       CONTROLLER_ACTIONS = {
         "sessions"      => {
-          "new"    => "GET",
-          "create" => "POST",
-          "delete" => "DELETE"
+          "new"     => "GET",
+          "create"  => "POST",
+          "destroy" => "DELETE"
         },
         "registrations" => {
-          "index"  => "GET",
-          "new"    => "GET",
-          "create" => "POST",
-          "edit"   => "GET",
-          "show"   => "GET",
-          "update" => "PUT",
-          "delete" => "DELETE"
+          "index"   => "GET",
+          "new"     => "GET",
+          "create"  => "POST",
+          "edit"    => "GET",
+          "show"    => "GET",
+          "update"  => "PUT",
+          "destroy" => "DELETE"
         },
         "passwords"     => {
           "new"    => "GET",
@@ -188,6 +188,7 @@ module HanamiId
         inject_warden_helper
         modify_app_layout
         configure_app
+        update_config
       end
       # rubocop:enable Metrics/AbcSize
     end

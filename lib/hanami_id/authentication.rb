@@ -10,6 +10,7 @@ module HanamiId
       action.class_eval do
         # before :"authenticate_#{HanamiId.model_name}!"
         expose :"current_#{HanamiId.model_name}"
+        expose :"#{HanamiId.model_name}_signed_in?"
       end
     end
 
