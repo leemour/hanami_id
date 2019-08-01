@@ -13,6 +13,28 @@ module HanamiId
       current_password
     ]
       LOG
+      APP_AUTH_INC = <<-INC
+      controller.prepare do
+        include HanamiId::Authentication
+        include HanamiId::I18nSupport
+      end
+      view.prepare do
+        include HanamiId::I18nSupport
+      end
+      INC
+      PROJECT_AUTH_INC = <<~INC
+        Hanami::Controller.configure do
+          prepare do
+            include HanamiId::Authentication
+            include HanamiId::I18nSupport
+          end
+        end
+        Hanami::View.configure do
+          prepare do
+            include HanamiId::I18nSupport
+          end
+        end
+      INC
 
       private
 
@@ -169,59 +191,62 @@ module HanamiId
         destination = if context.mode == "project"
           File.join project.initializers, "hanami_id.rb"
         else
-          project.root.join(
-            "apps", context.app, "config", "hanami_id.rb"
-          )
+          project.root.join("apps", context.app, "config", "hanami_id.rb")
         end
         generate_file(source, destination, context)
         say(:create, destination)
       end
 
-      def update_config
-        # TODO: add project-wide integration
-        destination = project.environment
+      def inject_authentication_helpers(destination)
+        inject_authentication_require(destination)
+        if context.mode == "project"
+          inject_project_auth_include(destination)
+        else
+          inject_app_auth_include(destination)
+        end
+      end
 
-        files.replace_first_line(
-          destination, /logger level: :debug/, LOGGER_FILTER
+      def inject_authentication_require(destination)
+        content = "require \"hanami_id/authentication\""
+        if context.mode == "project"
+          files.inject_line_after_last(destination, "require_relative", content)
+        else
+          files.inject_line_before(destination, "", content)
+        end
+        say(:insert, destination)
+      end
+
+      def inject_app_auth_include(destination)
+        content = "      I18n.locale = :#{context.locale}"
+        files.inject_line_after(destination, "configure do", content)
+        files.inject_line_after(destination, "configure do", APP_AUTH_INC)
+        say(:insert, destination)
+      end
+
+      def inject_project_auth_include(destination)
+        files.inject_line_before(
+          destination, "Hanami.configure do", PROJECT_AUTH_INC
+        )
+        content = "    I18n.locale = :#{context.locale}"
+        files.inject_line_after(
+          destination, "include HanamiId::I18nSupport", content
+        )
+        files.inject_line_after_last(
+          destination, "include HanamiId::I18nSupport", content
         )
         say(:insert, destination)
       end
 
-      def inject_authentication_helpers
-        inject_authentication_require
-        inject_authentication_include
-      end
+      def inject_warden_helper(destination)
+        if context.mode == "project"
+          line = "Hanami.configure do"
+          content = "  HanamiId::Warden::ProjectHelper.install_middleware(self)"
+        else
+          line = "Hanami::Application"
+          content = "    include HanamiId::Warden::AppHelper\n"
+        end
 
-      def inject_authentication_require
-        content = "require \"hanami_id/authentication\""
-        destination = project.app_application(context)
-
-        files.inject_line_before(destination, "", content)
-        say(:insert, destination)
-      end
-
-      def inject_authentication_include
-        content = <<-INC
-      controller.prepare do
-        include HanamiId::Authentication
-        include HanamiId::I18nSupport
-      end
-      view.prepare do
-        include HanamiId::I18nSupport
-      end
-      I18n.locale = :#{context.locale}
-        INC
-        destination = project.app_application(context)
-
-        files.inject_line_after(destination, "configure do", content)
-        say(:insert, destination)
-      end
-
-      def inject_warden_helper
-        content = "    include HanamiId::Warden::AppHelper\n"
-        destination = project.app_application(context)
-
-        files.inject_line_after_last(destination, /Application </, content)
+        files.inject_line_after(destination, line, content)
         say(:insert, destination)
       end
 
@@ -236,7 +261,7 @@ module HanamiId
       <% if #{context.model}_signed_in? %>
         <%= link_to t('hanami_id.sessions.sign_out'), routes.session_path(current_user.id), method: "DELETE" %>
       <% end %>
-    </header>"
+    </header>
         HEAD
         files.inject_line_after(destination, /<body>/, content)
         say(:insert, destination)
@@ -249,11 +274,37 @@ module HanamiId
           "sessions :cookie, secret: " \
             "ENV['#{context.app.upcase}_SESSIONS_SECRET']"
         ].each do |content|
-          files.inject_line_before(
+          files.replace_first_line(
             destination, "# #{content}", "      #{content}"
           )
-          files.remove_line(destination, "# #{content}")
         end
+        say(:insert, destination)
+      end
+
+      # def inject_config_in_apps
+      #   Dir[project.root.join("apps")].each do |app_path|
+      #     inject_authentication_helpers
+      #     configure_app
+      #   end
+      # end
+
+      def update_project_config
+        destination = project.environment
+
+        files.replace_first_line(
+          destination, /logger level: :debug/, LOGGER_FILTER
+        )
+        say(:insert, destination)
+      end
+
+      def inject_dependencies
+        destination = if context.mode == "standalone"
+          project.app_application(context)
+        else
+          project.environment
+        end
+        inject_authentication_helpers(destination)
+        inject_warden_helper(destination)
         say(:insert, destination)
       end
 

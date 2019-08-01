@@ -37,33 +37,50 @@ And then execute:
 
 Run generator:
 
-    $ hanami g auth --app auth --model user
+    $ hanami g auth --app auth --model user --modules=sessions,registrations --mode project
 
 
 Use `--help` to see all available options and defaults. They are:
 
+- --app
+- --model
 - --modules
+- --locale
 - --id_type
 - --login_column
 - --password_column
 
 The above command is using Hanami CLI under the hood and will generate an 
-application with all controller actions, entity, repository and all relevant 
-specs (RSpec).
+application with all controller actions, views, templates in `apps` folder. As well as entity, repository and interactors in `lib` fodler. All relevant specs are coming soon (RSpec, Capybara).
+
+All available modules are:
+
+- sessions
+- registrations
+- passwords
+- confirmations
+- unlocks
+
+Currently working modules are *sessions* and *registrations* only. Other modules' files are generated but functionality is either not implemented or not supported by mailers (mailing is to be added very soon).
+
+During generation, when `project` mode is used, the authentication helpers, I18n and Warden are instlled project-wide in `/config/environment.rb`. When `standalone` mode is used, they are installed only inside the authentication app e.g. `apps/auth/application.rb`.   If you need to add authentication to selected few apps, you can do it manually. Automatic handling of selected option is in coming soon.
+
 
 ## Usage
 
-For project-wide usage add Warden Rack middleware to your project:
-```ruby
-# config/environment.rb
-Hanami.configure do
-  # ...
-  use Rack::Session::Cookie, secret: "replace this with some secret key"
-  include HanamiId::Warden::AppHelper
-end
-```
+The gem provides several helpers:
+ - `authenticate_<model>!`
+ - `authenticate_<model>`
+ - `current_<model>`
+ - `<model>_signed_in?`
 
-For usage in a specific app add Warden Rack middleware to that particular app:
+Use `authenticate_<model>!` method to fail if authentications fails and `authenticate_<model>` to proceed to normal application workflow even if authentication fails.
+
+`current_<model>` method is `nil` if no user is authenticated otherwise it represents the authenticated user.
+
+Use `<model>_signed_in?` to check if user is authenticated.
+
+In case of `standalone` installation, auth app will be completely isolated and HanamiId will not be injected in other apps code. For authenication usage in a specific app add Warden Rack middleware to that app:
 ```ruby
 # apps/web/application.rb
 module Web
@@ -77,9 +94,21 @@ module Web
 end
 ```
 
-Use `authenticate_<model>!` method to fail if authentications fails and `authenticate_<model>` (without bang) to continue if authentication fails.
+To use authentication in all controller actions of an app do:
+```ruby
+# apps/web/application.rb
+module Auth
+  class Application < Hanami::Application
+    configure do
+      controller.prepare do
+        before :authenticate_user!
+      end
+    end
+  end
+end
+```    
 
-For example:
+To force authentication inside a controller action use:
 ```ruby
 # apps/web/controllers/dashboard/show.rb
 module Web
