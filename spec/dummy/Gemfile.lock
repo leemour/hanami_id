@@ -136,7 +136,7 @@ GEM
       pry (~> 0.10)
     puma (3.12.1)
     rack (2.0.7)
-    rake (12.3.2)
+    rake (13.0.1)
     rom (3.3.3)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.3)
